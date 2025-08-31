@@ -1,0 +1,164 @@
+{% set dataset_type = h.default_package_type() %}
+
+<style>
+  .hero-search {
+    margin: 20px 0;
+  }
+
+  .search-form .form-control {
+    border-radius: 10px 0 0 10px !important;
+    padding: 14px 20px;
+    font-size: 16px;
+  }
+
+  .search-form .btn-primary {
+    background: #008cba;
+    border: none;
+    font-size: 16px;
+    border-radius: 0 10px 10px 0 !important;
+  }
+
+  .search-form .btn-info {
+    background: #0099cc;
+    border: none;
+    font-size: 16px;
+    border-radius: 10px !important;
+  }
+
+  .search-form .btn i {
+    font-size: 16px;
+  }
+
+  .stats-box {
+    border-radius: 12px;
+  }
+
+  .stats-box .top-stat h3 {
+    font-size: 28px;
+    color: #333;
+  }
+
+  .stats-box .top-stat p {
+    font-size: 14px;
+  }
+
+  .stats-box .row h4 {
+    font-size: 24px;
+    margin-bottom: 5px;
+  }
+
+  .stats-box .row p {
+    margin: 0;
+    font-size: 14px;
+    color: #444;
+  }
+
+  .stats-box .underline {
+    width: 40px;
+    height: 4px;
+    margin: 0 auto 6px;
+    border-radius: 2px;
+  }
+
+  .btn-primary-custom {
+    background: #00A0D1;
+    border: none;
+    font-size: 16px;
+    border-radius: 0 10px 10px 0 !important;
+  }
+
+  .btn-data {
+    background: #037699;
+    border: none;
+    font-size: 16px;
+    border-radius: 10px 10px 10px 10px !important;
+  }
+</style>
+
+<div class="hero-search">
+  <!-- Heading -->
+  <h1 class="hero-search-title">
+    Cari Data Apa <span style="color: #037699">Hari Ini?</span>
+  </h1>
+  <p class="hero-search-subtitle">
+    Info data dan informasi resmi publik dari pemerintah Kabupaten Deli Serdang
+    untuk Kamu!
+  </p>
+
+  <form
+    class="d-flex search-form"
+    method="get"
+    action="{% h.url_for dataset_type ~ '.search' %}"
+  >
+    <div class="input-group input-group-lg">
+      <!-- Input -->
+      <input
+        type="text"
+        name="q"
+        id="field-main-search"
+        class="rounded-start-pill form-control"
+        placeholder="Cari Data"
+        aria-label="Cari Data"
+      />
+
+      <!-- Tombol Cari -->
+      <button type="submit" class="px-4 rounded-end-pill btn btn-primary-custom" style="color: white;">
+        <i class="me-1 fa fa-search"></i> Cari
+      </button>
+
+      <!-- Tombol Semua Data -->
+      <div class="ms-2 dropdown"></div>
+      <button class="px-4 rounded-pill btn btn-data dropdown-toggle" type="button" id="allDataDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="color: white">
+        <i class="me-1 fa fa-list"></i> Semua Data
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="allDataDropdown">
+        <li>
+          <a class="dropdown-item" href="{{ h.url_for('dataset.search') }}"
+            >Semua Dataset</a
+          >
+        </li>
+        <li>
+          <a class="dropdown-item" href="{{ h.url_for('organization.index') }}"
+            >Instansi</a
+          >
+        </li>
+        <li>
+          <a class="dropdown-item" href="{{ h.url_for('group.index') }}"
+            >Group</a
+          >
+        </li>
+      </ul>
+    </div>
+  </form>
+
+  <!-- Statistik Box -->
+  <div class="shadow-sm mt-4 stats-box card">
+  <div class="text-center card-body">
+    <div class="top-stat d-flex align-items-center justify-content-center gap-2">
+      <i class="fa fa-database fa-2x" style="color: #037699"></i>
+      <h3 class="mb-0 fw-bold">183+</h3>
+    </div>
+    <p class="mb-0 text-muted">Dataset Tersedia</p>
+    <hr />
+
+    <div class="mt-3 row">
+      <div class="col-md-4 col-4">
+        <h4 class="fw-bold">183+</h4>
+        <div class="bg-primary underline"></div>
+        <p>Datasets</p>
+      </div>
+      <div class="col-md-4 col-4">
+        <h4 class="fw-bold">52</h4>
+        <div class="bg-danger underline"></div>
+        <p>Instansi</p>
+      </div>
+      <div class="col-md-4 col-4">
+        <h4 class="fw-bold">4</h4>
+        <div class="bg-success underline"></div>
+        <p>Group</p>
+      </div>
+    </div>
+  </div>
+
+  </div>
+</div>

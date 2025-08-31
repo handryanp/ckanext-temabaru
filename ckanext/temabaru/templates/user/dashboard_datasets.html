@@ -1,0 +1,70 @@
+{% extends "user/dashboard.html" %}
+{% set dataset_type = h.default_package_type() %}
+
+{% block primary_content_inner %}
+  <div class="dashboard-section">
+    <h2 class="section-title">
+      <i class="fa fa-sitemap"></i>
+      {{ h.humanize_entity_type('package', dataset_type, 'my label') or _('My Datasets') }}
+    </h2>
+
+    {% if user_dict.datasets %}
+      <div class="dataset-list">
+        {% snippet 'snippets/package_list.html', packages=user_dict.datasets %}
+      </div>
+    {% else %}
+      <div class="empty-state">
+        <i class="fa fa-folder-open"></i>
+        <p>{{ _('You haven\'t created any datasets.') }}</p>
+        {% if h.check_access('package_create') %}
+          <a class="btn btn-primary" href="{{ h.url_for(h.humanize_entity_type('package', dataset_type, 'add link') or _('dataset.new'), named_route=dataset_type ~ '.new') }}">
+            {{ _('Add Dataset') }}
+          </a>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+
+  <style>
+    .dashboard-section {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: #111827;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dataset-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: #6b7280;
+    }
+
+    .empty-state i {
+      font-size: 48px;
+      color: #9ca3af;
+      margin-bottom: 12px;
+    }
+
+    .empty-state p {
+      margin: 8px 0;
+      font-size: 16px;
+    }
+  </style>
+{% endblock %}

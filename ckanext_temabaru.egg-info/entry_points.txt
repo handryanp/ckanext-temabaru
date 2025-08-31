@@ -1,0 +1,2 @@
+[ckan.plugins]
+temabaru = ckanext.temabaru.plugin:TemabaruPlugin

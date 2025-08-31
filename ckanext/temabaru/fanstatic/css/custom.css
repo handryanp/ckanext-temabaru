@@ -1,0 +1,10 @@
+body {
+  background: #ffffff !important;
+}
+
+.masthead,
+.featured,
+.homepage .main {
+  background-color: #ffffff !important;
+  background-image: none !important;
+}

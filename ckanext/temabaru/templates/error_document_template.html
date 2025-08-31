@@ -1,0 +1,43 @@
+{% extends "page.html" %}
+
+{% block subtitle %}{{ gettext('Error %(error_code)s', error_code=code) }}{% endblock %}
+
+{% block primary %}
+<article class="text-center module" style="padding: 40px 20px;">
+  <div class="module-content" id="error-content">
+
+    <!-- Animasi Lottie -->
+    <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.6.2/dist/dotlottie-wc.js" type="module"></script>
+    <dotlottie-wc src="https://lottie.host/906ef450-8bcb-443e-a91f-361e41019b60/EbTCyxBiG6.lottie" style="width: 100%; height: 100%;margin:auto;" speed="1" autoplay loop></dotlottie-wc>
+
+    {% if name %}
+      <h1 class="fw-bold" style="font-size:2.5rem; margin-top:20px;">{{ code }} - {{ name }}</h1>
+    {% endif %}
+
+    <p class="text-muted lead" style="margin:15px 0 25px 0;">
+      {{ content }}
+    </p>
+
+    <a href="{{ h.url_for('home.index') }}" class="me-2 btn btn-primary btn-lg">
+      <i class="fa fa-home"></i> {{ _('Back to Home') }}
+    </a>
+
+    {% if show_login_redirect_link %}
+      <a href="{{ h.url_for('user.login') }}" class="btn-outline-secondary btn btn-lg">
+        <i class="fa fa-sign-in"></i> {{ _('Login') }}
+      </a>
+    {% endif %}
+
+  </div>
+</article>
+{% endblock %}
+
+{% block breadcrumb %}
+{% endblock %}
+
+{% block flash %}
+  {# Hilangkan flash messages default di error #}
+  {% set flash_messages = h.get_flashed_messages() %}
+{% endblock %}
+
+{% block secondary %}{% endblock %}

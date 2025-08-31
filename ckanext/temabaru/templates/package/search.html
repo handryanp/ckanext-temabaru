@@ -1,0 +1,90 @@
+{% extends "page.html" %}
+
+{% block content %}
+
+<div class="mt-4 container">
+  <div class="row">
+
+    <!-- Sidebar: Facets -->
+    <div class="col-md-3">
+      <div class="shadow-sm mb-4 border-0 card">
+        <div class="bg-light card-header fw-bold">
+          <i class="me-2 fa fa-filter"></i> Filter Data
+        </div>
+        <div class="card-body">
+          {% snippet "package/snippets/search_facets.html",
+             facet_titles=facet_titles,
+             search_facets=search_facets
+          %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content: Dataset List -->
+    <div class="col-md-9">
+
+      <!-- Dataset Cards -->
+      {% if page.items %}
+        <div class="row g-3">
+          {% for package in page.items %}
+            <div class="col-md-6">
+              <div class="shadow-sm border-0 h-100 card hover-card">
+                <div class="card-body">
+                  <h6 class="card-title fw-bold">
+                    <a href="{{ h.url_for('dataset.read', id=package.name) }}" 
+                       class="text-primary text-decoration-none">
+                      {{ package.title or package.name }}
+                    </a>
+                  </h6>
+                  <p class="text-muted card-text small">
+                    {{ h.markdown_extract(package.notes, 120) }}
+                  </p>
+
+                  <!-- Tags -->
+                  {% if package.tags %}
+                    <div class="mb-2">
+                      {% for tag in package.tags %}
+                        <span class="bg-light border text-dark badge">
+                          <i class="me-1 fa fa-tag"></i>{{ tag.display_name }}
+                        </span>
+                      {% endfor %}
+                    </div>
+                  {% endif %}
+
+                  <!-- Resources -->
+                  {% if package.resources %}
+                    <div>
+                      {% for res in package.resources %}
+                        <span class="bg-primary badge">{{ res.format }}</span>
+                      {% endfor %}
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+      {% else %}
+        <div class="alert alert-warning">
+          <i class="me-2 fa fa-info-circle"></i> Tidak ada dataset ditemukan.
+        </div>
+      {% endif %}
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}
+
+{% block styles %}
+<style>
+  .hover-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .hover-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+</style>
+{% endblock %}

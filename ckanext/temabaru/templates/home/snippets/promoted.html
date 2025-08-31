@@ -1,0 +1,14 @@
+{% set intro = g.site_intro_text %} {% block home_image %}
+<section class="hidden-xs featured media-overlay">
+  {% block home_image_content %}
+  <a class="media-image" href="#">
+    <img
+      class="img-fluid"
+      src="{{ h.url_for_static_or_external('/images/Gambar.png') }}"
+      alt="Placeholder"
+      style="width: 150px"
+    />
+  </a>
+  {% endblock %}
+</section>
+{% endblock %}

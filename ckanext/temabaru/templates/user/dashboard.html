@@ -1,0 +1,188 @@
+{% extends "user/edit_base.html" %}
+
+<style>
+  .dashboard-wrapper {
+    padding: 20px;
+    border-radius: 12px;
+  }
+  .dashboard-header {
+    background: linear-gradient(135deg, #00A0D1, #4dabf7);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  .dashboard-header h2 {
+    font-size: 1.4rem;
+    font-weight: 600;
+  }
+  /* Wrapper nav */
+    .custom-nav {
+      border-bottom: 2px solid #e5e7eb;
+      margin-bottom: 20px;
+      gap: 8px;
+    }
+
+    .custom-nav li a {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      font-weight: 500;
+      color: #374151;
+      border-radius: 8px 8px 0 0;
+      transition: all 0.3s ease;
+    }
+
+    /* Hover effect */
+    .custom-nav li a:hover {
+      background: #f3f4f6;
+      color: #111827;
+      text-decoration: none;
+    }
+
+    /* Active tab */
+    .custom-nav li.active a {
+      background: #00A0D1;
+      color: #fff !important;
+      border: none;
+      box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
+    }
+
+    /* Icon styling */
+    .custom-nav li a i {
+      font-size: 16px;
+    }
+  .dashboard-content {
+    background: #fff;
+    border-radius: 12px;
+  }
+</style>
+
+{% set user = current_user %}
+{% set org_type = h.default_group_type('organization') %}
+{% set group_type = h.default_group_type('group') %}
+{% set dataset_type = h.default_package_type() %}
+
+{% block breadcrumb_content %}
+  <li class="active">
+    <a href="{{ h.url_for('dashboard.datasets') }}">
+      {{ _('Dashboard') }}
+    </a>
+  </li>
+{% endblock %}
+
+{% block secondary %}{% endblock %}
+
+{% block primary %}
+  <section class="dashboard-wrapper">
+
+    {% block page_header %}
+    <header class="dashboard-header">
+      <div class="d-flex align-items-center justify-content-between bg-light shadow-sm mb-4 p-3 rounded">
+        <div class="d-flex align-items-center">
+          <div class="image">
+            {{ h.user_image(user.id, size=150) }}
+          </div>
+          <h2 class="mb-0" style="font-size: 2rem; font-weight: 600;">
+            {{ user.display_name or user.name }}
+          </h2>
+        </div>
+        <div class="dropdown content_action">
+          <button class="shadow-lg btn btn-primary btn-lg dropdown-toggle" type="button" id="dashboardDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa fa-cog"></i> {{ _('Actions') }}
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dashboardDropdown">
+            <li>
+              <a class="dropdown-item" href="{{ h.url_for('user.index') }}" style="color: white;">
+                <i class="fa fa-users"></i> {{ _('User List') }}
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{{ h.url_for('user.read', id=user.name) }}" style="color: white;">
+                <i class="fa fa-user"></i> {{ _('Profile') }}
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{{ h.url_for('user.edit', id=user.name) }}" style="color: white;">
+                <i class="fa fa-cog"></i> {{ _('Profile Settings') }}
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{{ h.url_for('user.logout') }}" style="color: white;">
+                <i class="fa fa-sign-out"></i> {{ _('Logout') }}
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <style>
+        .image {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin-right: 15px;
+        }
+
+        .image img {
+          border-radius: 50%;
+          border: 4px solid #f1f1f1;
+          width: 150px;
+          height: 150px;
+          object-fit: cover;
+          margin-bottom: 10px;
+          transition: all 0.3s ease;
+        }
+
+        .image img:hover {
+          transform: scale(1.05);
+          border-color: #007bff; /* efek hover lebih hidup */
+        }
+      </style>
+
+
+      {% block content_primary_nav %}
+    <ul class="d-flex align-items-center nav nav-tabs custom-nav" style="background: #e9ecef; border-radius: 8px 8px 0 0; padding: 4px 8px;">
+      {% block dashboard_nav_links %}
+        <li class="nav-item {% if c.action=='dashboard.datasets' %}active{% endif %}">
+        <a class="nav-link" href="{{ h.url_for('dashboard.datasets') }}">
+          <i class="fa fa-sitemap"></i>
+          {{ h.humanize_entity_type('package', dataset_type, 'my label') or _('My Datasets') }}
+        </a>
+        </li>
+        <li class="nav-item {% if c.action=='dashboard.organizations' %}active{% endif %}">
+        <a class="nav-link" href="{{ h.url_for('dashboard.organizations') }}">
+          <i class="fa fa-building"></i>
+          {{ h.humanize_entity_type('organization', org_type, 'my label') or _('My Organizations') }}
+        </a>
+        </li>
+        <li class="nav-item {% if c.action=='dashboard.groups' %}active{% endif %}">
+        <a class="nav-link" href="{{ h.url_for('dashboard.groups') }}">
+          <i class="fa fa-users"></i>
+          {{ h.humanize_entity_type('group', group_type, 'my label') or _('My Groups') }}
+        </a>
+        </li>
+        <li class="nav-item {% if c.action=='dashboard.groups' %}active{% endif %}">
+        <a class="nav-link" href="{{ h.url_for('user.read', id=current_user.name) }}">
+            <i class="fa fa-user"></i>
+            {{ _('My Profile') }}
+        </a>
+        </li>
+
+      {% endblock dashboard_nav_links %}
+    </ul>
+      {% endblock %}
+    </header>
+    {% endblock %}
+
+    <div class="shadow-sm p-4 dashboard-content card" style="margin-top: 10px; margin-bottom: 10px;">
+      {% if self.page_primary_action() | trim %}
+        <div class="mb-3 page_primary_action">
+          {% block page_primary_action %}{% endblock %}
+        </div>
+      {% endif %}
+      {% block primary_content_inner %}
+      {% endblock %}
+    </div>
+  </section>
+{% endblock %}

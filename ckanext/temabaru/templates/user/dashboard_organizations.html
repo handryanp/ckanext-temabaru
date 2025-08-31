@@ -1,0 +1,101 @@
+{% extends "user/dashboard.html" %}
+{% set org_type = h.default_group_type('organization') %}
+
+{% block primary_content_inner %}
+  <div class="dashboard-section">
+    <h2 class="section-title">
+      <i class="fa fa-building"></i>
+      {{ h.humanize_entity_type('organization', org_type, 'my label') or _('My Organizations') }}
+    </h2>
+
+    {% set organizations = h.organizations_available(
+      permission='manage_group',
+      include_dataset_count=True,
+      include_member_count=True
+    ) %}
+
+    {% if organizations %}
+      <div class="organization-list">
+        {% snippet "organization/snippets/organization_list.html", organizations=organizations, show_capacity=True %}
+      </div>
+    {% else %}
+      <div class="empty-state">
+        <i class="fa fa-building"></i>
+        <p>{{ _('You are not a member of any organizations.') }}</p>
+        
+          {% if h.check_access('organization_create') %}
+            <a class="shadow-sm btn btn-add btn-sm" style="justify-content: center;" href="{{ h.url_for(org_type ~ '.new') }}">
+              {{ _('Add Organization') }}
+            </a>
+          {% endif %}
+
+
+      </div>
+    {% endif %}
+  </div>
+
+  <style>
+    .btn-add {
+      width: 200px;
+      height: 50px;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-size: 16px;
+      font-weight: 500;
+      color: #fff;
+      background: #037699;
+      transition: background 0.3s ease;
+    }
+
+    .btn-add:hover {
+      background: #0bb1d6; /* lebih gelap sedikit dari cyan */
+    }
+
+    .dashboard-section {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: #111827;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .organization-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: #6b7280;
+    }
+
+    .empty-state i {
+      font-size: 48px;
+      color: #9ca3af;
+      margin-bottom: 12px;
+    }
+
+    .empty-state p {
+      margin: 8px 0;
+      font-size: 16px;
+    }
+
+    .btn-success i,
+    .btn-primary i {
+      margin-right: 6px;
+    }
+  </style>
+{% endblock %}

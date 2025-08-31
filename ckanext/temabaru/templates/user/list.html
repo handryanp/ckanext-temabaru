@@ -1,0 +1,66 @@
+{% extends "page.html" %}
+
+{% block subtitle %}{{ _('All Users') }}{% endblock %}
+
+{% block breadcrumb_content %}
+  {{ h.build_nav('dashboard.datasets', _('Dashboard')) }}
+  {{ h.build_nav('user.index', _('Users')) }}
+{% endblock %}
+
+{% block primary_content %}
+  <article class="module">
+    <div class="module-content">
+      <h1 class="mb-4 page-heading">
+        {% block page_heading %}👥 {{ _('Users') }}{% endblock %}
+      </h1>
+
+      {% block users_list %}
+      <div class="row">
+        {% block users_list_inner %}
+          {% for user in page.items %}
+          <div class="mb-4 col-md-4 col-sm-6">
+            <div class="shadow-sm p-3 h-100 text-center card user-card">
+              <div class="mb-3 user-avatar">
+                {{ h.user_image(user.id, size=100) }}
+              </div>
+              <h5 class="fw-bold">{{ h.linked_user(user.name, maxlength=20) }}</h5>
+              <div class="mt-2">
+                <a href="{{ h.url_for('user.read', id=user.name) }}" class="btn-outline-primary btn btn-sm">
+                  <i class="fa fa-user"></i> View Profile
+                </a>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        {% endblock %}
+      </div>
+      {% endblock %}
+    </div>
+
+    {% block page_pagination %}
+      <div class="mt-4">
+        {{ page.pager(q=q, order_by=order_by) }}
+      </div>
+    {% endblock %}
+  </article>
+{% endblock %}
+
+{% block secondary_content %}
+  {% snippet 'user/snippets/user_search.html', q=q %}
+{% endblock %}
+
+<style>
+  .user-card {
+    border-radius: 15px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .user-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+  }
+  .user-avatar img {
+    border-radius: 50%;
+    border: 3px solid #f1f1f1;
+    object-fit: cover;
+  }
+</style>

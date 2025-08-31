@@ -1,0 +1,175 @@
+{% set dataset_type = h.default_package_type() %}
+
+<style>
+  /* Header Styles */
+  header.masthead {
+    background: linear-gradient(90deg, #037699 0%, #00A0D1 100%);
+    color: #fff;
+    padding: 32px 0 10px 0;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    position: relative;
+    z-index: 10;
+    height: 100px;
+  }
+  .masthead .container {
+    max-width: 1200px;
+  }
+  .logo img {
+    height: 72px;
+    transition: transform 0.2s;
+  }
+  .logo img:hover {
+    transform: scale(1.05) rotate(-2deg);
+  }
+  .navbar-nav {
+    gap: 8px;
+    align-items: center;
+  }
+  .nav-link {
+    color: auto !important;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    padding: 10px 18px !important;
+    border-radius: 8px;
+    transition: background 0.18s, color 0.18s;
+  }
+  .nav-link:hover, .nav-link:focus, .nav-item.active > .nav-link {
+    background: rgba(0,160,209,0.15);
+  }
+  .dropdown-menu {
+    background: #003746;
+    border-radius: 12px;
+    min-width: 210px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    padding: 0.5rem 0;
+    margin-top: 8px;
+    border: none;
+  }
+  .dropdown-menu .dropdown-item {
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: background 0.18s;
+  }
+  .dropdown-menu .dropdown-item:hover, 
+  .dropdown-menu .dropdown-item:focus {
+    background: #037699;
+  }
+  .dropdown-toggle.show, .nav-link.active {
+    background: #003746 !important;
+    color: #fff !important;
+    border-radius: 8px 8px 0 0;
+  }
+  .btn-login {
+    width: 120px;
+    height: 40px;
+    background: linear-gradient(90deg, #00A0D1 60%, #037699 100%);
+    border: none;
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.13);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.18s, box-shadow 0.18s;
+    margin-left: 8px;
+  }
+  .btn-login:hover {
+    background: linear-gradient(90deg, #037699 0%, #00A0D1 100%);
+    color: #fff;
+    box-shadow: 0 4px 18px rgba(0,160,209,0.18);
+    text-decoration: none;
+  }
+  @media (max-width: 991px) {
+    .navbar-nav {
+      gap: 0;
+    }
+    .nav-link {
+      padding: 10px 12px !important;
+    }
+    .logo img {
+      height: 56px;
+    }
+  }
+</style>
+
+<header class="masthead">
+  <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <div class="d-flex align-items-center">
+        {% block header_logo %}
+        <a class="d-flex align-items-center me-3 logo" href="{{ h.url_for('home.index') }}">
+          <img src="{{ h.url_for_static_or_external('/images/satudatalogo.png') }}" alt="SatuData DeliSerdang"/>
+        </a>
+        {% endblock %}
+      </div>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-navigation-toggle"
+        aria-controls="main-navigation-toggle" aria-expanded="false" aria-label="{{ _('Toggle navigation') }}">
+        <span class="text-white fa fa-bars"></span>
+      </button>
+      <div class="collapse navbar-collapse main-navbar" id="main-navigation-toggle">
+        <ul class="ms-auto mb-2 mb-lg-0 navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="{{ h.url_for('home.index') }}" style="color: white;">{{ _('Beranda') }}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ h.url_for(dataset_type ~ '.search') }}" style="color: white;">
+              {{ h.humanize_entity_type('package', dataset_type, 'main nav') or _('Dataset') }}
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ h.url_for('organization.index') }}" style="color: white;">
+              {{ h.humanize_entity_type('organization', 'organization', 'main nav') or _('Instansi') }}
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ h.url_for('home.index') }}" style="color: white;">{{ _('Insight') }}</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="publikasiDropdown" role="button" 
+              data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
+              {{ _('Publikasi') }}
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="publikasiDropdown">
+              <li>
+                <a class="dropdown-item" href="{{ h.url_for('admin.index') }}">{{ _('Berita') }}</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="{{ h.url_for('admin.index') }}">{{ _('Webinar') }}</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="tentangDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
+              {{ _('Tentang') }}
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="tentangDropdown">
+              <li>
+                <a class="dropdown-item" href="{{ h.url_for('home.about') }}">{{ _('Profil Satu Data Deli Serdang') }}</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="{{ h.url_for('group.index') }}">{{ _('Groups') }}</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ h.url_for('home.index') }}" style="color: white;">{{ _('Regulasi') }}</a>
+          </li>
+          {% if not c.user or c.user == 'visitor' %}
+            <li class="text-center nav-item">
+              <a class="btn btn-login nav-link" href="{{ h.url_for('user.login') }}" style="color: white;">
+                {{ _('Login') }}
+              </a>
+            </li>
+          {% else %}
+            <li class="text-center nav-item">
+              <a class="btn btn-login nav-link" href="{{ h.url_for('dashboard.datasets') }}" style="color: white;">
+                {{ _('Dashboard') }}
+              </a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+  </div>
+</header>

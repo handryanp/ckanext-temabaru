@@ -1,3 +1,19 @@
+Metadata-Version: 2.4
+Name: ckanext-temabaru
+Version: 0.0.1
+Author-email: rian <kickymaulana@gmail.com>
+License: AGPL
+Project-URL: Homepage, https://github.com/kickymaulana/ckanext-temabaru
+Keywords: CKAN
+Classifier: Development Status :: 4 - Beta
+Classifier: License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: license-file
+
 [![Tests](https://github.com/kickymaulana/ckanext-temabaru/workflows/Tests/badge.svg?branch=main)](https://github.com/kickymaulana/ckanext-temabaru/actions)
 
 # ckanext-temabaru

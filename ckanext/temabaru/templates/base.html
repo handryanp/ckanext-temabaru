@@ -1,0 +1,102 @@
+{# Allows the DOCTYPE to be set on a page by page basis #}
+{%- block doctype %}<!DOCTYPE html>{% endblock -%}
+
+{# Allows custom attributes to be added to the <html> tag #}
+{%- block htmltag -%}
+{% set lang = h.lang() %}
+<!--[if IE 9]> <html lang="{{ lang }}" class="ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> 
+<html lang="{{ lang }}" {% if h.is_rtl_language() %} dir="rtl" {% endif %}> 
+<!--<![endif]-->
+{%- endblock -%}
+
+<style>
+  body {
+    overflow-x: hidden;
+  }
+  .main {
+    min-height: 100vh;
+  }
+</style>
+
+<head{% block headtag %}{% endblock %}>
+
+  {# Meta tags #}
+  {%- block meta -%}
+    <meta charset="utf-8" />
+    <meta name="csrf_field_name" content="{{ g.csrf_field_name }}" />
+    <meta name="{{ g.csrf_field_name }}" content="{{ csrf_token() }}" />
+
+    {% block meta_generator %}
+      <meta name="generator" content="ckan {{ h.ckan_version() }}" />
+    {% endblock %}
+    
+    {% block meta_viewport %}
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% endblock %}
+  {%- endblock -%}
+
+  {# Title #}
+  <title>
+    {%- block title -%}
+      Portal Satu Data Deli Serdang
+    {%- endblock -%}
+  </title>
+
+  {# Links (favicon, rss, etc) #}
+  {% block links -%}
+    <link rel="shortcut icon" href="{{ h.url_for_static_or_external('/images/satudataind.png') }}" />
+  {% endblock -%}
+
+  {# Stylesheets #}
+  {%- block styles %}
+    {% set theme = h.get_rtl_theme() if h.is_rtl_language() else g.theme %}
+    {% asset theme %}
+  {% endblock %}
+
+  {{ h.render_assets('style') }}
+
+  {%- block custom_styles %}
+    {%- if g.site_custom_css -%}
+      <style></style>
+    {%- endif %}
+  {% endblock %}
+
+  {%- block head_extras %}{% endblock %}
+
+</head>
+
+<style>
+  body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: #FFFFFF;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  .homepage .main {
+    background-color: #eee !important;
+    background-image: none !important;
+  }
+</style>
+
+<body 
+  {% block bodytag %}
+    data-site-root="{{ h.url_for('home.index', locale='default', qualified=true) }}" 
+    data-locale-root="{{ h.url_for('home.index', qualified=true) }}"
+  {% endblock %}
+>
+
+  {# Page content #}
+  {%- block page %}{% endblock -%}
+
+  {# Scripts #}
+  {%- block scripts %}{% endblock -%}
+
+  {% block body_extras -%}{%- endblock %}
+
+  {{ h.render_assets('style') }}
+  {{ h.render_assets('script') }}
+
+</body>
+</html>

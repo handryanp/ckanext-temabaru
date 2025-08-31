@@ -1,0 +1,66 @@
+{% extends "page.html" %}
+
+<style>
+    .module {
+        margin-bottom: 24px;
+    }
+    .module-content {
+        padding: 16px;
+        background: #f9f9f9;
+        border: 1px solid #eee;
+        border-radius: 4px;
+    }
+    .btn {
+        padding: 12px 16px;
+        border: none;
+        border-radius: 4px;
+        background: #007bff;
+        color: #fff;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+    .btn:hover {
+        background: #0056b3;
+    }
+    .btn-secondary {
+        background: #6c757d;
+        color: #fff;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+    .btn-secondary:hover {
+        background: #5a6268;
+    }
+</style>
+
+{% block primary_content %}
+  <section class="module">
+    <div class="module-content">
+      {% block form %}
+        {% snippet "user/snippets/login_form.html", error_summary=error_summary %}
+      {% endblock %}
+    </div>
+  </section>
+{% endblock %}
+
+{% block secondary_content %}
+  {% block help_forgotten %}
+  <section class="module module-narrow module-shallow">
+    {% block help_forgotten_inner %}
+    <h2 class="module-heading">{{ _('Forgotten your password?') }}</h2>
+    <div class="module-content">
+      <p>{% trans %}No problem, use our password recovery form to reset it.{% endtrans %}</p>
+      <p class="action">
+        {% block help_forgotten_button %}
+        <a class="btn btn-secondary" href="{{ h.url_for('user.request_reset') }}">{{ _('Forgot your password?') }}</a>
+        {% endblock %}
+      </p>
+    </div>
+    {% endblock %}
+  </section>
+  {% endblock %}
+{% endblock %}

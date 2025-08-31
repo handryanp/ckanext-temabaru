@@ -1,0 +1,54 @@
+{% extends "page.html" %} {% block subtitle %}{{ _('Logged Out') }}{% endblock %} {% block primary_content %}
+<section
+  class="module"
+  style="
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+  "
+>
+  <div
+    class="module-content"
+    style="
+      text-align: center;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+    "
+  >
+    <!-- Ikon -->
+    <div style="font-size: 60px; color: #dc3545; margin-bottom: 20px">
+      <i class="fa fa-sign-out-alt"></i>
+    </div>
+
+    <!-- Judul -->
+    <h1
+      class="page-heading"
+      style="margin-bottom: 15px; font-weight: bold; color: #333"
+    >
+      {% block page_heading %}{{ _('You have logged out') }}{% endblock %}
+    </h1>
+
+    <!-- Pesan -->
+    <p style="font-size: 16px; color: #555; margin-bottom: 25px">
+      {% trans %}You are now safely logged out of the system.{% endtrans %}
+    </p>
+
+    <!-- Tombol aksi -->
+    <div>
+      <a
+        href="{{ h.url_for('user.login') }}"
+        class="btn btn-primary"
+        style="margin-right: 10px"
+      >
+        <i class="fa fa-sign-in-alt"></i> {{ _('Login Again') }}
+      </a>
+      <a href="{{ h.url_for('home.index') }}" class="btn-outline-secondary btn">
+        <i class="fa fa-home"></i> {{ _('Back to Home') }}
+      </a>
+    </div>
+  </div>
+</section>
+{% endblock %}

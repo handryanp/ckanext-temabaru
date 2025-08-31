@@ -1,0 +1,34 @@
+{% extends "page.html" %}
+
+{% block breadcrumb_content %}
+  <li class="active">{% link_for _('Halaman'), named_route='home.about' %}</li>  <!-- Ganti Halaman dengan Nama Halaman Lain -->
+{% endblock %}
+
+<!-- Styles for the page -->
+<style>
+    article.module {
+        background-color: #ffffff !important;
+        border-radius: 4px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    .main {
+        min-height: 100vh;
+    }
+</style>
+
+<!-- Scripts for the page -->
+{% block primary %}
+  <article class="module" role="main">
+    <div class="module-content">
+      {% block about %}
+      <!-- Adding content for the section -->
+       <p>This is the about section content.</p>
+       <p>Additional information can be added here.</p>
+      {% endblock %}
+    </div>
+  </article>
+{% endblock %}
+
+{% block secondary %}
+{% endblock %}

@@ -1,0 +1,14 @@
+# temabaru-js:
+#   filter: rjsmin
+#   output: ckanext-temabaru/%(version)s-temabaru.js
+#   contents:
+#     - js/temabaru.js
+#   extra:
+#     preload:
+#       - base/main
+
+# temabaru-css:
+#   filter: cssrewrite
+#   output: ckanext-temabaru/%(version)s-temabaru.css
+#   contents:
+#     - css/temabaru.css

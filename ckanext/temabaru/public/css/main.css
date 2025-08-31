@@ -1,0 +1,72 @@
+.hero-search {
+  margin: 20px 0;
+}
+
+.search-form .form-control {
+  border-radius: 10px 0 0 10px !important;
+  padding: 14px 20px;
+  font-size: 16px;
+}
+
+.search-form .btn-primary {
+  background: #008cba;
+  border: none;
+  font-size: 16px;
+  border-radius: 0 10px 10px 0 !important;
+}
+
+.search-form .btn-info {
+  background: #0099cc;
+  border: none;
+  font-size: 16px;
+  border-radius: 10px !important;
+}
+
+.search-form .btn i {
+  font-size: 16px;
+}
+
+.stats-box {
+  border-radius: 12px;
+}
+
+.stats-box .top-stat h3 {
+  font-size: 28px;
+  color: #333;
+}
+
+.stats-box .top-stat p {
+  font-size: 14px;
+}
+
+.stats-box .row h4 {
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+.stats-box .row p {
+  margin: 0;
+  font-size: 14px;
+  color: #444;
+}
+
+.stats-box .underline {
+  width: 40px;
+  height: 4px;
+  margin: 0 auto 6px;
+  border-radius: 2px;
+}
+
+.btn-primary-custom {
+  background: #00A0D1;
+  border: none;
+  font-size: 16px;
+  border-radius: 0 10px 10px 0 !important;
+}
+
+.btn-data {
+  background: #037699;
+  border: none;
+  font-size: 16px;
+  border-radius: 10px 10px 10px 10px !important;
+}

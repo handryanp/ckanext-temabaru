@@ -1,0 +1,185 @@
+{% set user = user_dict if not user else user %}
+{% set orgs_available = h.organizations_available(
+    permission='manage_group',
+    include_dataset_count=True,
+    include_member_count=True,
+    user=user['id']
+) %}
+{% set groups_available = h.groups_available(
+    am_member=True,
+    include_dataset_count=True,
+    include_member_count=True,
+    user=user['id']
+) %}
+
+<style>
+#user-info {
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: all 0.3s ease-in-out;
+}
+#user-info:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+#user-info .image img {
+    display: inline-grid;
+    justify-content: center;
+    border-radius: 50%;
+    border: 4px solid #f1f1f1;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+}
+#user-info .image img:hover {
+    border-color: #007bff;
+    transform: scale(1.05);
+}
+#user-info h1.heading {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #333;
+    text-align: center;
+    margin-bottom: 10px;
+}
+#user-info .empty {
+    font-style: italic;
+    color: #888;
+    text-align: center;
+}
+#user-info .nums {
+    display: inline-grid;
+    grid-template-columns: auto auto;
+    text-align: center;
+    gap: 10px;
+    margin: 20px;
+    max-width: 100%; /* Supaya tidak keluar dari container */
+    box-sizing: border-box;
+}
+#user-info .nums dl {
+    background-color: #f1f1f1;
+    box-shadow: #333;
+    border-radius: 10px;
+    max-width: 100%;
+    padding: 20px;
+    font-size: 30px;
+    text-align: center;
+}
+
+#user-info .nums dl:hover {
+    background: #e9f2ff;
+}
+
+#user-info .nums dt {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+#user-info .nums dd {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #007bff;
+    margin: 0; /* hilangkan default margin dd */
+}
+@media (max-width: 768px) {
+    #user-info .nums {
+        grid-template-columns: repeat(2, 1fr); /* jadi 2 kolom */
+    }
+}
+
+@media (max-width: 480px) {
+    #user-info .nums {
+        grid-template-columns: 1fr; /* jadi 1 kolom */
+    }
+}
+
+#user-info .info dl {
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px dashed #eee;
+    padding-bottom: 5px;
+}
+#user-info .info dt {
+    font-weight: 600;
+    color: #444;
+}
+#user-info .info dd {
+    color: #555;
+}
+</style>
+
+<div id="user-info" class="module context-info">
+    <section class="module-content">
+        <div class="text-center">
+            <div class="image" style="justify-content: center;">
+                {{ h.user_image(user.id, size=250) }}
+            </div>
+            <h1 class="heading">{{ user.display_name }}</h1>
+        </div>
+
+        <div class="text-center bio">
+            {% if about_formatted %}
+                {{ about_formatted }}
+            {% else %}
+                <p class="empty">
+                    {% if is_myself %}
+                        {% trans %}You have not provided a biography.{% endtrans %}
+                    {% else %}
+                        {% trans %}This user has no biography.{% endtrans %}
+                    {% endif %}
+                </p>
+            {% endif %}
+        </div>
+
+        <div class="nums">
+            <dl>
+                <dt>{{ _('Followers') }}</dt>
+                <dd>{{ h.SI_number_span(h.follow_count('user', user.id)) }}</dd>
+            </dl>
+            <dl>
+                <dt>{{ _('Datasets') }}</dt>
+                <dd>{{ h.SI_number_span(user.number_created_packages) }}</dd>
+            </dl>
+            <dl>
+                <dt>{{ _('Organizations') }}</dt>
+                <dd>{{ orgs_available | count }}</dd>
+            </dl>
+            <dl>
+                <dt>{{ _('Groups') }}</dt>
+                <dd>{{ groups_available | count }}</dd>
+            </dl>
+        </div>
+
+        <div class="info">
+            <dl>
+                <dt>{{ _('Username') }}</dt>
+                <dd>{{ user.name }}</dd>
+            </dl>
+            {% if is_myself %}
+            <dl>
+                <dt>{{ _('Email') }}</dt>
+                <dd>{{ user.email }}</dd>
+            </dl>
+            {% endif %}
+            <dl>
+                <dt>{{ _('Member Since') }}</dt>
+                <dd>{{ h.render_datetime(user.created) }}</dd>
+            </dl>
+            {% if is_sysadmin %}
+            <dl>
+                <dt>{{ _('Last Active') }}</dt>
+                <dd>{{ h.time_ago_from_timestamp(user.last_active) }}</dd>
+            </dl>
+            {% endif %}
+            <dl>
+                <dt>{{ _('State') }}</dt>
+                <dd>{{ _(user.state) }}</dd>
+            </dl>
+        </div>
+    </section>
+</div>

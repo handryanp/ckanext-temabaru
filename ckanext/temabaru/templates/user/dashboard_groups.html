@@ -1,0 +1,74 @@
+{% extends "user/dashboard.html" %}
+{% set group_type = h.default_group_type('group') %}
+
+{% block primary_content_inner %}
+  <div class="dashboard-section">
+    <h2 class="section-title">
+      <i class="fa fa-users"></i>
+      {{ h.humanize_entity_type('group', group_type, 'my label') or _('My Groups') }}
+    </h2>
+
+    {% set groups = h.groups_available(am_member=True,
+      include_dataset_count=True,
+      include_member_count=True) %}
+
+    {% if groups %}
+      <div class="dataset-list">
+        {% snippet "group/snippets/group_list.html", groups=groups, show_capacity=True %}
+      </div>
+    {% else %}
+      <div class="empty-state">
+        <i class="fa fa-folder-open"></i>
+        <p>{{ _('You are not a member of any groups.') }}</p>
+        {% if h.check_access('group_create') %}
+          <a class="btn btn-primary" href="{{ h.url_for(group_type ~ '.new') }}">
+            {{ _('Create Group') }}
+          </a>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+
+  <style>
+    .dashboard-section {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: #111827;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dataset-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: #6b7280;
+    }
+
+    .empty-state i {
+      font-size: 48px;
+      color: #9ca3af;
+      margin-bottom: 12px;
+    }
+
+    .empty-state p {
+      margin: 8px 0;
+      font-size: 16px;
+    }
+  </style>
+{% endblock %}
