@@ -1,45 +1,138 @@
 {% extends "page.html" %}
 
-{% block subtitle %}{{ _(dataset_type.title()) }}{% endblock %}
+{% block content %}
+<style>
+  .card {
+    border-radius: 12px;
+    transition: all 0.3s ease-in-out;
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  }
+  .badge {
+    font-size: 0.75rem;
+    padding: 0.4em 0.6em;
+  }
+  .hover-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .hover-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+  .main {
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  @media (max-width: 991.98px) {
+    .container {
+      max-width: 100%;
+    }
+  }
+</style>
 
-{% block breadcrumb_content %}
-  <li class="active">{{ h.nav_link(_(dataset_type.title() + 's'), named_route='%s.search' % dataset_type) }}</li>
-{% endblock %}
+<div class="main">
+  <div class="py-4 container">
+    <!-- Hero / Title -->
+    <div class="mb-4 text-start">
+      <h2 class="hero-search-title">
+        <i class="me-2 fa fa-database" style="color: #037699"></i>
+        Temukan <span style="color: #037699">Dataset</span> Anda Disini
+      </h2>
+    </div>
 
-{% block primary_content %}
-  {% snippet "package/snippets/search_results.html",
-    dataset_type=dataset_type,
-    fields_grouped=fields_grouped,
-    search_facets=search_facets,
-    facet_titles=facet_titles,
-    translated_fields=translated_fields,
-    remove_field=remove_field,
-    q=q,
-    sort_by_selected=sort_by_selected,
-    page=page,
-    query_error=query_error,
-    fields=fields
-  %}
-
-  {% block package_search_results_api %}
-    <section class="module">
-      <div class="module-content">
-        {% block package_search_results_api_inner %}
-          <small>
-            {% set api_link = h.link_to(_('API'), h.url_for('api.get_api', ver=3)) %}
-            {% set api_doc_link = h.link_to(_('API Docs'), 'https://docs.ckan.org/en/{0}/api/'.format(g.ckan_doc_version)) %}
-            {% trans %} You can also access this registry using the {{ api_link }} (see {{ api_doc_link}}). {% endtrans %}
-          </small>
-        {% endblock %}
+    <div class="row gx-4">
+      <!-- Sidebar: Facets -->
+      <div class="col-md-3">
+        <div class="shadow-sm mb-4 border-0 card">
+          <div class="bg-light card-header fw-bold">
+            <i class="me-2 fa fa-filter"></i> Filter Data
+          </div>
+          <div class="card-body">
+            {% snippet "package/snippets/search_facets.html",
+              facet_titles=facet_titles,
+              search_facets=search_facets
+            %}
+          </div>
+        </div>
       </div>
-    </section>
-  {% endblock %}
-{% endblock %}
 
+      <!-- Main Content -->
+      <div class="col-md-9">
+        <!-- Search bar + count -->
+        <div class="shadow-sm mb-3 p-3 card">
+          <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+            <div>
+              <i class="me-2 fa fa-search"></i>
+              <span class="fw-bold">{{ count }} Dataset Ditemukan</span>
+            </div>
+            <form method="get" class="d-flex" style="min-width:250px;">
+              <input
+                type="text"
+                name="q"
+                placeholder="Cari dataset ..."
+                class="me-2 form-control"
+                value="{{ query }}"
+              />
+              <button type="submit" class="btn btn-primary">
+                <i class="fa fa-search"></i>
+              </button>
+            </form>
+          </div>
+        </div>
 
-{% block secondary_content %}
-  {% snippet "package/snippets/search_facets.html",
-    facet_titles=facet_titles,
-    search_facets=search_facets
-  %}
+        <!-- Dataset Results -->
+        {% if page.items %}
+          <div class="row g-3">
+            {% for package in page.items %}
+              <div class="col-md-6">
+                <div class="shadow-sm border-0 h-100 card hover-card">
+                  <div class="card-body">
+                    <h6 class="card-title fw-bold">
+                      <a href="{{ h.url_for('dataset.read', id=package.name) }}" 
+                         class="text-primary text-decoration-none">
+                        {{ package.title or package.name }}
+                      </a>
+                    </h6>
+                    <p class="text-muted card-text small">
+                      {{ h.markdown_extract(package.notes, 120) }}
+                    </p>
+
+                    <!-- Tags -->
+                    {% if package.tags %}
+                      <div class="mb-2">
+                        {% for tag in package.tags %}
+                          <span class="bg-light border text-dark badge">
+                            <i class="me-1 fa fa-tag"></i>{{ tag.display_name }}
+                          </span>
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+
+                    <!-- Resources -->
+                    {% if package.resources %}
+                      <div>
+                        {% for res in package.resources %}
+                          <span class="bg-primary badge">{{ res.format }}</span>
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+          
+        {% else %}
+          <div class="alert alert-warning">
+            <i class="me-2 fa fa-info-circle"></i> Tidak ada dataset ditemukan.
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
