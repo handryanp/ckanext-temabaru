@@ -1,0 +1,82 @@
+/* Global styling for search page */
+.search-page {
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  color: #2c3e50;
+  padding: 20px;
+  background: #f9fafb;
+}
+
+/* Hero section */
+.hero-section {
+  text-align: center;
+  margin-bottom: 30px;
+}
+.hero-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #1a237e;
+}
+.hero-subtitle {
+  font-size: 1rem;
+  color: #546e7a;
+}
+
+/* Layout: sidebar + content */
+.search-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 20px;
+}
+
+/* Sidebar (facets) */
+.facet-sidebar {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+.facet-sidebar h3 {
+  font-size: 1rem;
+  margin-bottom: 10px;
+  color: #1a237e;
+}
+
+/* Dataset results */
+.dataset-results {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* API info */
+.dataset-api-info {
+  margin-top: 30px;
+  text-align: center;
+}
+.api-info-text {
+  font-size: 0.9rem;
+  color: #607d8b;
+}
+
+/* Cards inside search results */
+.dataset-item {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  padding: 15px;
+  transition: 0.2s ease-in-out;
+}
+.dataset-item:hover {
+  border-color: #3949ab;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+}
+.dataset-heading a {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1a237e;
+  text-decoration: none;
+}
+.dataset-heading a:hover {
+  color: #3949ab;
+}

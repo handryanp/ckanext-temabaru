@@ -52,18 +52,17 @@
   {%- block styles %}
     {% set theme = h.get_rtl_theme() if h.is_rtl_language() else g.theme %}
     {% asset theme %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
   {% endblock %}
 
   {{ h.render_assets('style') }}
 
   {%- block custom_styles %}
     {%- if g.site_custom_css -%}
-      <style></style>
     {%- endif %}
   {% endblock %}
 
   {%- block head_extras %}{% endblock %}
-
 </head>
 
 <style>
@@ -91,7 +90,15 @@
   {%- block page %}{% endblock -%}
 
   {# Scripts #}
-  {%- block scripts %}{% endblock -%}
+  {%- block scripts %}
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      duration: 1000,
+      once: true
+    });
+  </script>
+  {% endblock -%}
 
   {% block body_extras -%}{%- endblock %}
 

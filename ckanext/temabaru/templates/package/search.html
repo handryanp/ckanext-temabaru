@@ -37,7 +37,7 @@
 <div class="main">
   <div class="py-4 container">
     <!-- Hero / Title -->
-    <div class="mb-4 text-start">
+    <div class="mb-4 text-start" data-aos="fade-right" data-aos-delay="100">
       <h2 class="hero-search-title">
         <i class="me-2 fa fa-database" style="color: #037699"></i>
         Temukan <span style="color: #037699">Dataset</span> Anda Disini
@@ -46,7 +46,7 @@
 
     <div class="row gx-4">
       <!-- Sidebar: Facets -->
-      <div class="col-md-3">
+      <div class="col-md-3" data-aos="fade-right" data-aos-delay="100">
         <div class="shadow-sm mb-4 border-0 card">
           <div class="bg-light card-header fw-bold">
             <i class="me-2 fa fa-filter"></i> Filter Data
@@ -63,7 +63,7 @@
       <!-- Main Content -->
       <div class="col-md-9">
         <!-- Search bar + count -->
-        <div class="shadow-sm mb-3 p-3 card">
+        <div class="shadow-sm mb-3 p-3 card" data-aos="fade-left" data-aos-delay="100">
           <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
             <div>
               <i class="me-2 fa fa-search"></i>
@@ -86,7 +86,7 @@
 
         <!-- Dataset Results -->
         {% if page.items %}
-          <div class="row g-3">
+          <div class="row g-3" data-aos="fade-up" data-aos-delay="100">
             {% for package in page.items %}
               <div class="col-md-6">
                 <div class="shadow-sm border-0 h-100 card hover-card">
