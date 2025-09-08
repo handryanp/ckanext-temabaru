@@ -1,0 +1,144 @@
+{% extends "page.html" %}
+
+{% block subtitle %}
+  {{ h.humanize_entity_type('organization', group_type, 'page title') or _('Organizations') }}
+{% endblock %}
+
+{% block breadcrumb_content %}
+  <li class="active">
+    {% link_for h.humanize_entity_type('organization', group_type, 'breadcrumb') or _('Instansi'), named_route=group_type+'.index' %}
+  </li>
+{% endblock %}
+
+{% block page_header %}{% endblock %}
+
+{% block primary_content_inner %}
+
+  {# 🔎 Form pencarian #}
+    <div class="shadow-sm mb-3 p-3 card" data-aos="fade-left" data-aos-delay="100">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+            <div>
+                <i class="me-2 fa fa-search"></i>
+                <span class="fw-bold">Instansi Ditemukan</span> :
+                <span class="bg-primary badge">{{ page.item_count }}</span>
+            </div>
+            <form method="get" class="d-flex" style="min-width:250px;">
+                <input
+                    type="text"
+                    name="q"
+                    placeholder="Cari instansi ..."
+                    class="me-2 form-control"
+                    value="{{ q }}"
+                />
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-search"></i>
+                </button>
+            </form>
+            {% if h.check_access('organization_create') %}
+                <a href="{{ h.url_for(group_type + '.new') }}" class="btn btn-primary" style="justify-content: end;" data-aos="fade-up" data-aos-delay="100">
+                    <i class="me-1 fa fa-plus"></i>
+                    {{ _('Tambah Instansi') }}
+                </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <hr>
+
+{# 📋 Daftar Instansi (gabungan organization_list + organization_item) #}
+{% block organizations_list %}
+    {% if page.items or request.args %}
+            {% if page.items %}
+            <div class="row g-4" data-aos="fade-up" data-aos-delay="100">
+                    {% for organization in page.items %}
+                    {% set url = h.url_for(organization.type ~ '.read', id=organization.name) %}
+                    <div class="col-md-6 col-lg-6 col-xl-4" data-aos="fade-up" data-aos-delay="100">
+                            <div class="shadow-sm border-0 w-100 h-100 card hover-card">
+                                    <div class="d-flex flex-column justify-content-between text-center card-body">
+                                            
+                                            <!-- Logo / Icon -->
+                                            <div class="mb-3">
+                                            <img src="{{ organization.image_display_url or h.url_for_static('/base/images/placeholder-organization.png') }}"
+                                                    alt="{{ organization.name }}"
+                                                    class="shadow-sm border rounded-circle"
+                                                    style="width: 90px; height: 90px; object-fit: cover;">
+                                            </div>
+
+                                            <!-- Title -->
+                                            <h5 class="mb-2 text-primary fw-bold">{{ organization.display_name }}</h5>
+
+                                            <!-- Description -->
+                                            {% if organization.description %}
+                                            <p class="mb-3 text-muted small">
+                                                    {{ h.markdown_extract(organization.description, extract_length=80) }}
+                                            </p>
+                                            {% endif %}
+
+                                            <!-- Badges -->
+                                            <div class="d-flex flex-wrap justify-content-center gap-2 mb-3">
+                                            <span class="bg-primary badge">
+                                                    <i class="me-1 fa fa-database"></i>
+                                                    {{ ungettext('{num} Dataset', '{num} Dataset', organization.package_count).format(num=organization.package_count) if organization.package_count else _('0 Datasets') }}
+                                            </span>
+                                            <span class="bg-secondary badge">
+                                                    <i class="me-1 fa fa-users"></i>
+                                                    {{ ungettext('{num} Member', '{num} Anggota', organization.member_count).format(num=organization.member_count) if 'member_count' in organization and organization.member_count else _('0 Anggota') }}
+                                            </span>
+                                            {% if show_capacity and organization.capacity %}
+                                                    <span class="bg-info text-dark badge">
+                                                    <i class="me-1 fa fa-user-shield"></i>
+                                                    {{ h.roles_translated().get(organization.capacity, organization.capacity) }}
+                                                    </span>
+                                            {% endif %}
+                                            </div>
+
+                                            <!-- Button -->
+                                            <a href="{{ url }}" class="mt-auto btn-outline-primary btn btn-sm" style="justify-content: center;">
+                                                    <i class="fa-arrow-right me-1 fa"></i>
+                                                    {{ _('Lihat Instansi').format(organization_name=organization.display_name) }}
+                                            </a>
+                                    </div>
+                            </div>
+                    </div>
+                    {% endfor %}
+            </div>
+            {% else %}
+            <p class="empty">
+                    Tidak ada instansi ditemukan.
+                    {% if h.check_access('organization_create') %}
+                            {% link_for _('How about creating one?'), named_route=group_type+'.new' %}
+                    {% endif %}
+            </p>
+            {% endif %}
+    {% else %}
+            <p class="empty">
+            {{ _('There are currently no organizations for this site') }}.
+            {% if h.check_access('organization_create') %}
+                    {% link_for _('How about creating one?'), named_route=group_type+'.new' %}
+            {% endif %}
+            </p>
+    {% endif %}
+{% endblock %}
+
+  {% block page_pagination %}
+    {{ page.pager(q=q or '', sort=sort_by_selected or '') }}
+  {% endblock %}
+{% endblock %}
+
+{% block secondary_content %}
+  <div class="module module-narrow module-shallow">
+    <h2 class="module-heading">
+        <i class="fa fa-info-circle"></i>
+        {{ _('Apa itu Instansi?') }}
+    </h2>
+    <div class="module-content">
+      <p>
+      {% trans %}
+        CKAN Instansi digunakan untuk membuat, mengelola, dan menerbitkan koleksi
+        dataset. Pengguna dapat memiliki peran yang berbeda dalam sebuah Instansi,
+        tergantung pada tingkat otorisasi mereka untuk membuat, mengedit, dan menerbitkan.
+      {% endtrans %}
+      </p>
+    </div>
+  </div>
+{% endblock %}

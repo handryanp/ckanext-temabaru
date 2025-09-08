@@ -6,4 +6,5 @@ def temabaru_hello():
 def get_helpers():
     return {
         "temabaru_hello": temabaru_hello,
+        'recent_datasets': recent_datasets,
     }

@@ -59,3 +59,23 @@ class TemabaruPlugin(plugins.SingletonPlugin):
     # def get_validators(self):
     #     return validators.get_validators()
     
+class CustomGroupPlugin(plugins.SingletonPlugin):
+    plugins.implements(plugins.ITemplateHelpers)
+
+    def get_helpers(self):
+        return {
+            'latest_group_datasets': self.latest_group_datasets
+        }
+
+    def latest_group_datasets(self, group_name, limit=3):
+        context = {
+            'model': toolkit.model,
+            'session': toolkit.model.Session,
+            'user': toolkit.g.user
+        }
+        data_dict = {
+            'q': f'groups:{group_name}',
+            'sort': 'metadata_created desc',
+            'rows': limit
+        }
+        return toolkit.get_action('package_search')(context, data_dict)['results']

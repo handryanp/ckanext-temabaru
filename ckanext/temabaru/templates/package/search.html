@@ -67,7 +67,8 @@
           <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
             <div>
               <i class="me-2 fa fa-search"></i>
-              <span class="fw-bold">{{ count }} Dataset Ditemukan</span>
+              <span class="fw-bold">Dataset Ditemukan</span> :
+              <span class="bg-primary badge">{{ page.item_count }}</span>
             </div>
             <form method="get" class="d-flex" style="min-width:250px;">
               <input
@@ -88,12 +89,12 @@
         {% if page.items %}
           <div class="row g-3" data-aos="fade-up" data-aos-delay="100">
             {% for package in page.items %}
-              <div class="col-md-6">
+              <div class="col-12">
                 <div class="shadow-sm border-0 h-100 card hover-card">
                   <div class="card-body">
                     <h6 class="card-title fw-bold">
                       <a href="{{ h.url_for('dataset.read', id=package.name) }}" 
-                         class="text-primary text-decoration-none">
+                        class="text-primary text-decoration-none">
                         {{ package.title or package.name }}
                       </a>
                     </h6>
@@ -125,12 +126,12 @@
               </div>
             {% endfor %}
           </div>
-          
         {% else %}
           <div class="alert alert-warning">
             <i class="me-2 fa fa-info-circle"></i> Tidak ada dataset ditemukan.
           </div>
         {% endif %}
+
       </div>
     </div>
   </div>

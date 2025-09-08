@@ -1,0 +1,87 @@
+{% import "macros/form.html" as form %}
+
+{% block form %}
+<div class="my-4 container" data-aos="fade-up" data-aos-delay="100">
+  <div class="justify-content-center row">
+    <div class="col-lg-6 col-md-8" style="min-width: 100%;">
+      <div class="shadow-sm border-0 rounded-3 card">
+        <div class="bg-primary py-3 rounded-top text-white text-center card-header">
+          <h4 class="mb-0">
+            <i class="me-2 fa fa-user-plus"></i> {{ _("Registrasi Akun Baru") }}
+          </h4>
+        </div>
+        <div class="p-4 card-body">
+          <form id="user-register-form" action="" method="post" enctype="multipart/form-data" novalidate>
+            {{ h.csrf_input() }}
+            {{ form.errors(error_summary) }}
+
+            {% block core_fields %}
+              {% block required_core_fields %}
+                <div class="mb-3">
+                  {{ form.input("name", id="field-username", label=_("Username"), placeholder=_("Enter username"), value=data.name, error=errors.name, classes=["form-control"], is_required=True) }}
+                </div>
+                <div class="mb-3">
+                  {{ form.input("fullname", id="field-fullname", label=_("Nama Lengkap"), placeholder=_("John Doe"), value=data.fullname, error=errors.fullname, classes=["form-control"]) }}
+                </div>
+                <div class="mb-3">
+                  {{ form.input("email", id="field-email", label=_("Email"), type="email", placeholder=_("name@example.com"), value=data.email, error=errors.email, classes=["form-control"], is_required=True) }}
+                </div>
+                <div class="mb-3">
+                  {{ form.input("password1", id="field-password", label=_("Kata Sandi"), type="password", placeholder="••••••••", value=data.password1, error=errors.password1, classes=["form-control"], is_required=True) }}
+                </div>
+                <div class="mb-3">
+                  {{ form.input("password2", id="field-confirm-password", label=_("Konfirmasi Kata Sandi"), type="password", placeholder="••••••••", value=data.password2, error=errors.password2, classes=["form-control"], is_required=True) }}
+                </div>
+              {% endblock %}
+
+              {% block optional_core_fields %}
+                <div class="mb-3">
+                  {% set is_upload = data.image_url and not data.image_url.startswith('http') %}
+                  {% set is_url = data.image_url and data.image_url.startswith('http') %}
+                  {{ form.image_upload(
+                      data, errors,
+                      is_upload_enabled=h.uploads_enabled(),
+                      is_url=is_url, is_upload=is_upload,
+                      upload_label=_('Foto Profil'),
+                      url_label=_('URL Foto Profil')
+                  ) }}
+                </div>
+              {% endblock %}
+            {% endblock %}
+
+            {% block extra_fields %}{% endblock %}
+
+            {% block captcha %}
+              {% if g.recaptcha_publickey %}
+                <div class="mb-3">
+                  {% snippet "user/snippets/recaptcha.html", public_key=g.recaptcha_publickey %}
+                </div>
+              {% endif %}
+            {% endblock %}
+
+            <div class="mb-3 text-muted form-text">
+              {{ form.required_message() }}
+            </div>
+
+            <div class="d-grid">
+              {% block form_actions %}
+              <button class="btn btn-primary btn-lg" type="submit" name="save">
+                <i class="me-2 fa fa-check-circle"></i> {{ _("Buat Akun") }}
+              </button>
+              {% endblock %}
+            </div>
+          </form>
+        </div>
+        <div class="bg-light text-center card-footer">
+          <small class="text-muted">
+            {{ _("Sudah punya akun?") }}
+            <a href="{{ h.url_for('user.login') }}" class="text-primary fw-bold">
+              {{ _("Masuk") }}
+            </a>
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

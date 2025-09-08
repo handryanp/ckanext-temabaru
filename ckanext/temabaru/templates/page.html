@@ -42,7 +42,7 @@
           {% endblock %}
 
           {# Layout wrapper (sidebar + content) #}
-          <div class="row g-4 wrapper{% block wrapper_class %}{% endblock %}{% if self.secondary()|trim == '' or c.action=='resource_read' %} no-nav{% endif %}" style="min-height: 350px;">
+          <div class="row wrapper{% block wrapper_class %}{% endblock %}{% if self.secondary()|trim == '' or c.action=='resource_read' %} no-nav{% endif %}" style="--bs-gutter-x: unset; min-height: auto;">
 
             {% block pre_primary %}{% endblock %}
 

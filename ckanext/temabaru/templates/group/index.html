@@ -1,0 +1,139 @@
+{% extends "page.html" %}
+
+{% block subtitle %}
+  {{ h.humanize_entity_type('group', group_type, 'page title') or _('Grup') }}
+{% endblock %}
+
+{% block breadcrumb_content %}
+  <li class="active">
+    {% link_for h.humanize_entity_type('group', group_type, 'breadcrumb') or _('Grup'), named_route=group_type+'.index' %}
+  </li>
+{% endblock %}
+
+{% block page_header %}{% endblock %}
+
+{% block primary_content_inner %}
+
+  {# 🔎 Search Form modern #}
+  <div class="shadow-sm mb-3 p-3 card" data-aos="fade-left" data-aos-delay="100">
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+      <div>
+        <i class="me-2 fa fa-search"></i>
+        <span class="fw-bold">{{ _('Grup Ditemukan') }}</span> :
+        <span class="bg-primary badge">{{ page.item_count }}</span>
+      </div>
+      <form method="get" class="d-flex" style="min-width:250px;">
+        <input
+          type="text"
+          name="q"
+          placeholder="{{ _('Cari grup ...') }}"
+          class="me-2 form-control"
+          value="{{ q }}"
+        />
+        <button type="submit" class="btn btn-primary">
+          <i class="fa fa-search"></i>
+        </button>
+      </form>
+      {% if h.check_access('group_create') %}
+        <a href="{{ h.url_for(group_type + '.new') }}" class="btn btn-primary" style="justify-content: end;" data-aos="fade-up" data-aos-delay="100">
+          <i class="me-1 fa fa-plus"></i>
+          {{ _('Tambah Grup') }}
+        </a>
+      {% endif %}
+    </div>
+  </div>
+
+  <hr>
+
+  {# 📋 Daftar Groups modern #}
+  {% block groups_list %}
+    {% if page.items or request.args %}
+      {% if page.items %}
+        <div class="row g-4" data-aos="fade-up" data-aos-delay="100">
+          {% for group in page.items %}
+            {% set url = h.url_for(group.type ~ '.read', id=group.name) %}
+            <div class="col-md-6 col-lg-6 col-xl-4" data-aos="fade-up" data-aos-delay="100">
+              <div class="shadow-sm border-0 w-100 h-100 card hover-card">
+                <div class="d-flex flex-column justify-content-between text-center card-body">
+                  
+                  <!-- Logo -->
+                  <div class="mb-3">
+                    <img src="{{ group.image_display_url or h.url_for_static('/base/images/placeholder-group.png') }}"
+                         alt="{{ group.name }}"
+                         class="shadow-sm border rounded-circle"
+                         style="width: 90px; height: 90px; object-fit: cover;">
+                  </div>
+
+                  <!-- Title -->
+                  <h5 class="mb-2 text-primary fw-bold">{{ group.display_name }}</h5>
+
+                  <!-- Description -->
+                  {% if group.description %}
+                    <p class="mb-3 text-muted small">
+                      {{ h.markdown_extract(group.description, extract_length=80) }}
+                    </p>
+                  {% endif %}
+
+                  <!-- Badges -->
+                  <div class="d-flex flex-wrap justify-content-center gap-2 mb-3">
+                    <span class="bg-primary badge">
+                      <i class="me-1 fa fa-database"></i>
+                      {{ ungettext('{num} Dataset', '{num} Dataset', group.package_count).format(num=group.package_count) if group.package_count else _('0 Dataset') }}
+                    </span>
+                    <span class="bg-secondary badge">
+                      <i class="me-1 fa fa-users"></i>
+                      {{ ungettext('{num} Member', '{num} Anggota', group.member_count).format(num=group.member_count) if 'member_count' in group and group.member_count else _('0 Anggota') }}
+                    </span>
+                  </div>
+
+                  <!-- Button -->
+                  <a href="{{ url }}" class="mt-auto btn-outline-primary btn btn-sm" style="justify-content: center;">
+                    <i class="fa-arrow-right me-1 fa"></i>
+                    {{ _('Lihat Grup').format(group_name=group.display_name) }}
+                  </a>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="empty">
+          {{ _('Tidak ada group ditemukan.') }}
+          {% if h.check_access('group_create') %}
+            {% link_for _('Buat Group baru?'), named_route=group_type+'.new' %}
+          {% endif %}
+        </p>
+      {% endif %}
+    {% else %}
+      <p class="empty">
+        {{ _('Belum ada group di sini.') }}
+        {% if h.check_access('group_create') %}
+          {% link_for _('Bagaimana kalau membuat satu?'), named_route=group_type+'.new' %}
+        {% endif %}
+      </p>
+    {% endif %}
+  {% endblock %}
+
+  {% block page_pagination %}
+    {{ page.pager(q=q or '', sort=sort_by_selected or '') }}
+  {% endblock %}
+
+{% endblock %}
+
+{% block secondary_content %}
+  <!-- Statistik hasil pencarian (aman: pakai page.* saja) -->
+  <div class="shadow-sm rounded module module-narrow module-shallow" data-aos="fade-up" data-aos-delay="100">
+    <h2 class="d-flex align-items-center module-heading">
+      <i class="me-2 fa fa-chart-bar"></i>
+      {{ _('Statistik') }}
+    </h2>
+    <div class="module-content">
+      <ul class="mb-0 list-unstyled small">
+        <li>
+          <i class="fa-layer-group me-1 fa"></i>
+          Total Group : <strong>{{ page.item_count or 0 }}</strong>
+        </li>
+      </ul>
+    </div>
+  </div>
+{% endblock %}

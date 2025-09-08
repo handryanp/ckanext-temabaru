@@ -1,0 +1,15 @@
+{% extends "page.html" %}
+
+{% block breadcrumb_content %}
+  <li class="active">{{ h.nav_link(_('Registrasi'), named_route='user.register') }}</li>
+{% endblock %}
+
+{% block primary_content %}
+  <article class="module">
+    <div class="module-content">
+      {% block primary_content_inner %}
+      {{ form | safe }}
+      {% endblock %}
+    </div>
+  </article>
+{% endblock %}
