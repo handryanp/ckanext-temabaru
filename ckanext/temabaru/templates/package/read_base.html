@@ -13,14 +13,22 @@
 {% endblock -%}
 
 {% block content_action %}
-  {% if h.check_access('package_update', {'id':pkg.id }) %}
-    {% link_for _('Manage'), named_route=pkg.type ~ '.edit', id=pkg.name, class_='btn btn-secondary', icon='wrench' %}
+  {% if h.check_access('package_update', {'id': pkg.id }) %}
+    <a href="{{ h.url_for(pkg.type ~ '.edit', id=pkg.name) }}" class="btn btn-primary" title="{{ _('Manage') }}">
+      <i class="fa fa-wrench" aria-hidden="true"></i> {{ _('Kelola') }}
+    </a>
   {% endif %}
 {% endblock %}
 
 {% block content_primary_nav %}
-  {{ h.build_nav_icon(dataset_type ~ '.read', _('Dataset'),  id=pkg.name, icon='sitemap') }}
-  {{ h.build_nav_icon(dataset_type ~ '.groups', h.humanize_entity_type('group', default_group_type, 'content tab') or _('Groups'), id=pkg.name, icon='users') }}
+  <nav class="mb-3 nav nav-pills">
+    <li class="nav-item">
+      {{ h.build_nav_icon(dataset_type ~ '.read', _('Dataset'), id=pkg.name, icon='sitemap', class_='nav-link') }}
+    </li>
+    <li class="nav-item">
+      {{ h.build_nav_icon(dataset_type ~ '.groups', h.humanize_entity_type('group', default_group_type, 'content tab') or _('Grup'), id=pkg.name, icon='users', class_='nav-link') }}
+    </li>
+  </nav>
 {% endblock %}
 
 {% block secondary_content %}
@@ -28,18 +36,44 @@
   {% block secondary_help_content %}{% endblock %}
 
   {% block package_info %}
-    {% snippet 'package/snippets/info.html', pkg=pkg, am_following=am_following %}
+    {% if pkg %}
+      <section id="package-info" class="module module-narrow">
+        <div class="module context-info">
+          <div class="module-content">
+            {% block package_info_inner %}
+              {% block heading %}
+                <h1 class="heading">{{ h.dataset_display_name(pkg) }}</h1>
+              {% endblock %}
+              {% block nums %}
+                {% set num_followers = h.follow_count('dataset', pkg.id) %}
+                <div class="nums">
+                  <dl>
+                    <dt>{{ _('Pengikut') }}</dt>
+                    <dd>{{ h.SI_number_span(num_followers) }}</dd>
+                  </dl>
+                </div>
+              {% endblock %}
+              {% block follow_button %}
+                {% if current_user.is_authenticated %}
+                  {% if error_message %}
+                    <div class="alert alert-danger">{{ error_message }}</div>
+                  {% endif %}
+                  {% snippet 'snippets/follow_button.html', am_following=am_following, obj_type='dataset', obj_id=pkg.id, anchor_type='package' %}
+                {% endif %}
+              {% endblock %}
+            {% endblock %}
+          </div>
+        </div>
+      </section>
+    {% endif %}
   {% endblock %}
+
 
   {% block package_organization %}
     {% if pkg.organization %}
       {% set org = h.get_organization(pkg.organization.id) %}
       {% snippet "organization/snippets/info.html", organization=org, show_nums=false, am_following=am_following %}
     {% endif %}
-  {% endblock %}
-
-  {% block package_social %}
-    {% snippet "snippets/social.html" %}
   {% endblock %}
 
   {% block package_license %}

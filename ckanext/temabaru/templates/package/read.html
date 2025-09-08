@@ -4,7 +4,7 @@
   {{ super() }}
   {% block package_description %}
     {% if pkg.private %}
-      <span class="dataset-private badge badge-inverse pull-right">
+      <span class="pull-right dataset-private badge badge-inverse">
         <i class="fa fa-lock"></i>
         {{ _('Private') }}
       </span>
@@ -13,10 +13,10 @@
       {% block page_heading %}
         {{ h.dataset_display_name(pkg) }}
         {% if pkg.state.startswith('draft') %}
-          <span class="badge bg-info">{{ _('Draft') }}</span>
+          <span class="bg-info badge">{{ _('Draft') }}</span>
         {% endif %}
         {% if pkg.state == 'deleted' %}
-          <span class="badge bg-info">{{ _('Deleted') }}</span>
+          <span class="bg-info badge">{{ _('Dihapus') }}</span>
         {% endif %}
       {% endblock %}
     </h1>

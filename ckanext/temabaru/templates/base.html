@@ -6,7 +6,7 @@
 {% set lang = h.lang() %}
 <!--[if IE 9]> <html lang="{{ lang }}" class="ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> 
-<html lang="id" {% if h.is_rtl_language() %} dir="rtl" {% endif %}> 
+<html lang="{{ lang }}" {% if h.is_rtl_language() %} dir="rtl" {% endif %}> 
 <!--<![endif]-->
 {%- endblock -%}
 
