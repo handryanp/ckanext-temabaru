@@ -1,0 +1,30 @@
+{% extends "page.html" %}
+
+{% block subtitle %}{{ _("Konfirmasi Reset") }}{% endblock %}
+
+{% block primary_content_inner %}
+  <div class="shadow-sm border-danger card">
+    <div class="bg-danger text-white card-header fw-semibold">
+      <i class="me-2 fa fa-exclamation-triangle"></i> {{ _("Konfirmasi Reset") }}
+    </div>
+    <div class="card-body">
+      <form action="{{ h.url_for('admin.reset_config') }}" method="post">
+        {{ h.csrf_input() }}
+
+        <div class="alert alert-warning" role="alert">
+          <i class="me-1 fa fa-info-circle"></i>
+          {{ _('Apakah Anda yakin ingin mereset konfigurasi? Tindakan ini tidak dapat dibatalkan.') }}
+        </div>
+
+        <div class="d-flex justify-content-between">
+          <button class="btn btn-secondary" type="submit" name="cancel">
+            <i class="me-1 fa fa-times"></i> {{ _('Batal') }}
+          </button>
+          <button class="btn btn-danger" type="submit" name="delete">
+            <i class="me-1 fa-rotate-left fa"></i> {{ _('Konfirmasi Reset') }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

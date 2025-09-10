@@ -5,7 +5,7 @@
   {% if h.check_access('package_create') %}
     <a class="btn btn-primary" href="{{ h.url_for(h.humanize_entity_type('package', dataset_type, 'add link') or _('dataset.new'), named_route=dataset_type ~ '.new') }}">
       <i class="fa fa-plus"></i>
-      {{ _('Add Dataset') }}
+      {{ _('Tambah Dataset') }}
     </a>
   {% endif %}
 {% endblock %}
@@ -14,7 +14,7 @@
   <div class="dashboard-section">
     <h2 class="section-title">
       <i class="fa fa-sitemap"></i>
-      {{ h.humanize_entity_type('package', dataset_type, 'my label') or _('My Datasets') }}
+      {{ h.humanize_entity_type('package', dataset_type, 'my label') or _('Dataset') }}
     </h2>
 
     {% if user_dict.datasets %}

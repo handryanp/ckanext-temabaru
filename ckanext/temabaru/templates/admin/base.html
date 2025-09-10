@@ -1,0 +1,19 @@
+{% extends "page.html" %}
+
+{% block subtitle %}{{ _('Administration') }}{% endblock %}
+
+{% block breadcrumb_content %}{% endblock %}
+
+{% block content_primary_nav %}
+  <ul class="bg-light shadow-sm mb-4 p-2 rounded nav nav-pills">
+    <li class="nav-item">
+      {{ h.build_nav_icon('admin.index', _('Sysadmins'), icon='gavel', _class='nav-link d-flex align-items-center gap-2') }}
+    </li>
+    <li class="nav-item">
+      {{ h.build_nav_icon('admin.config', _('Config'), icon='gear', _class='nav-link d-flex align-items-center gap-2') }}
+    </li>
+    <li class="nav-item">
+      {{ h.build_nav_icon('admin.trash', _('Trash'), icon='trash', _class='nav-link d-flex align-items-center gap-2') }}
+    </li>
+  </ul>
+{% endblock %}

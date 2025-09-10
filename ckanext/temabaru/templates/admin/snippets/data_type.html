@@ -1,0 +1,57 @@
+<div class="mb-3 accordion" id="accordion-{{ ent_type }}">
+  <div class="shadow-sm border-0 accordion-item">
+    <h2 class="accordion-header" id="heading-{{ ent_type }}">
+      <button class="accordion-button fw-semibold" type="button" data-bs-toggle="collapse"
+        data-bs-target="#collapse-{{ ent_type }}" aria-expanded="true" aria-controls="collapse-{{ ent_type }}">
+        {% if ent_type == "package" %}
+          <i class="me-2 text-primary fa fa-sitemap"></i> {{ _('Hapus dataset') }}
+        {% elif ent_type == "organization" %}
+          <i class="me-2 text-success fa fa-building"></i> {{ _('Hapus instansi') }}
+        {% elif ent_type == "group" %}
+          <i class="me-2 text-warning fa fa-users"></i> {{ _('Hapus grup') }}
+        {% endif %}
+      </button>
+    </h2>
+
+    {% set items = [] %}
+
+    <div id="collapse-{{ ent_type }}" class="accordion-collapse collapse show" aria-labelledby="heading-{{ ent_type }}"
+      data-bs-parent="#accordion-{{ ent_type }}">
+      <div class="accordion-body">
+        {% if entities %}
+          <ul class="list-group mb-3">
+            {% for entity in entities %}
+              {% set title = entity.title or entity.name %}
+              {% do items.append(title) %}
+              <li class="list-group-item d-flex align-items-center justify-content-between">
+                <a href="{{ h.url_for(entity.type + '.read', id=entity.name) }}"
+                   aria-label="{{ _('Navigate to: {title}').format(title=title|truncate(60)) }}">
+                  {{ title|truncate(80) }}
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <div class="mb-3 alert alert-info small" role="alert">
+            {{ _(messages.empty[ent_type]) }}
+          </div>
+        {% endif %}
+
+        {% if items|length > 0 %}
+          <form method="POST" class="d-flex justify-content-end" action="{{ h.url_for('admin.trash') }}"
+            id="form-purge-{{ ent_type }}">
+            {{ h.csrf_input() }}
+            <input type="hidden" name="action" value="{{ ent_type }}">
+            <a href="{{ h.url_for('admin.trash', name=ent_type) }}"
+              class="btn btn-danger btn-sm purge-all"
+              data-module="confirm-action"
+              data-module-with-data="true"
+              data-module-content="{{ _(messages.confirm[ent_type]) }}">
+              <i class="me-1 fa fa-trash-alt"></i>{{ _('Hapus') }}
+            </a>
+          </form>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>

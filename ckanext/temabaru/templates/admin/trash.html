@@ -1,0 +1,53 @@
+{% extends "page.html" %}
+
+{% block primary_content_inner %}
+  <div class="shadow-sm mb-4 border-0 card">
+    <div class="d-flex align-items-center bg-danger text-white card-header">
+      <i class="me-2 fa fa-trash-alt"></i> {{ _('Manajemen Sampah') }}
+    </div>
+    <div class="card-body">
+      <form method="POST" action="{{ h.url_for('admin.trash') }}" id="form-purge-all">
+        {{ h.csrf_input() }} 
+        <input type="hidden" name="action" value="all">
+        <div class="d-flex align-items-center alert alert-warning" role="alert">
+          <i class="me-2 fa fa-exclamation-triangle"></i>
+          {{ _('Ini akan menghapus semua item secara permanen. Harap berhati-hati!') }}
+        </div>
+        <button 
+          type="submit"
+          class="w-100 btn btn-danger btn-lg purge-all"
+          href="{{ h.url_for('admin.trash', name='all') }}"
+          data-module="confirm-action"
+          data-module-with-data="true"
+          data-module-content="{{ _('Apakah Anda yakin ingin menghapus semua item?') }}">
+          <i class="me-2 fa fa-skull-crossbones"></i>{{ _('Hapus Semua') }}
+        </button>
+      </form>
+    </div>
+  </div>
+
+  {% for ent_type, entities in data.items() %}
+    {% snippet "admin/snippets/data_type.html", ent_type=ent_type, entities=entities, messages=messages %}
+  {% endfor %}
+{% endblock %}
+
+{% block secondary_content %}
+  <div class="shadow-sm border-0 card">
+    <div class="bg-dark text-white card-header">
+      <i class="me-2 fa fa-info-circle"></i>{{ _('Administrator Satu Data Deli Serdang') }}
+    </div>
+    <div class="card-body">
+      <ul class="flex-column bg-light shadow-sm mb-4 p-2 rounded nav">
+            <li class="mb-2 nav-item">
+                {{ h.build_nav_icon('admin.index', _('Admin'), icon='gavel') }}
+            </li>
+            <li class="mb-2 nav-item">
+                {{ h.build_nav_icon('admin.config', _('Konfigurasi'), icon='gear') }}
+            </li>
+            <li class="mb-2 nav-item">
+                {{ h.build_nav_icon('admin.trash', _('Sampah'), icon='trash') }}
+            </li>
+        </ul>
+    </div>
+  </div>
+{% endblock %}

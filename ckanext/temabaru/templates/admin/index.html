@@ -1,0 +1,92 @@
+{% extends "page.html" %}
+
+{% block primary_content_inner %}
+  <h2 class="mb-4"><i class="me-2 fa fa-users-cog"></i>{{ _('Daftar Administrator') }}</h2>
+
+  <div class="table-responsive">
+    <table class="table table-hover table-striped shadow-sm rounded align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th scope="col">{{ _('Pengguna') }}</th>
+          <th scope="col" class="text-end">{{ _('Aksi') }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in sysadmins %}
+          <tr>
+            <td>{{ h.linked_user(user) }}</td>
+            <td class="text-end">
+              <form method="POST" action="{% url_for 'user.sysadmin' %}" class="d-inline">
+                {{ h.csrf_input() }}
+                <input type="hidden" value="{{ user }}" name="username" />
+                <input type="hidden" value="0" name="status" />
+                <button
+                  type="submit"
+                  class="rounded-pill btn-outline-danger btn btn-sm"
+                  aria-label="{{ _('Revoke Sysadmin permission') }}"
+                  data-bs-title="{{ _('Revoke Sysadmin permission') }}"
+                  data-bs-toggle="tooltip"
+                >
+                  <i class="fa fa-times"></i> {{ _('Revoke') }}
+                </button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="my-5"/>
+
+  <h2 class="mb-3"><i class="me-2 fa fa-user-shield"></i>{{ _('Promote Menjadi Administrator') }}</h2>
+
+  <form method="POST" action="{% url_for 'user.sysadmin' %}" class="shadow-sm p-4 border-0 card">
+    {{ h.csrf_input() }}
+    <div class="align-items-center row g-3">
+      <div class="col-md-8">
+        <input
+          id="promote-username"
+          type="text"
+          name="username"
+          placeholder="{{ _('Enter username...') }}"
+          value=""
+          class="form-control"
+          data-module="autocomplete"
+          data-module-source="/api/2/util/user/autocomplete?ignore_self=true&q=?"
+        >
+        <input type="hidden" value="1" name="status" />
+      </div>
+      <div class="text-md-start col-md-4">
+        <button
+          type="submit"
+          class="w-100 btn btn-primary"
+          aria-label="{{ _('Promote user to Sysadmin') }}"
+        >
+          <i class="me-1 fa fa-arrow-up"></i>{{ _('Promote') }}
+        </button>
+      </div>
+    </div>
+  </form>
+{% endblock %}
+
+{% block secondary_content %}
+  <div class="shadow-sm border-0 card">
+    <div class="bg-dark text-white card-header">
+      <i class="me-2 fa fa-info-circle"></i>{{ _('Administrator Satu Data Deli Serdang') }}
+    </div>
+    <div class="card-body">
+      <ul class="flex-column bg-light shadow-sm mb-4 p-2 rounded nav">
+            <li class="mb-2 nav-item">
+                {{ h.build_nav_icon('admin.index', _('Admin'), icon='gavel') }}
+            </li>
+            <li class="mb-2 nav-item">
+                {{ h.build_nav_icon('admin.config', _('Konfigurasi'), icon='gear') }}
+            </li>
+            <li class="mb-2 nav-item">
+                {{ h.build_nav_icon('admin.trash', _('Sampah'), icon='trash') }}
+            </li>
+        </ul>
+    </div>
+  </div>
+{% endblock %}

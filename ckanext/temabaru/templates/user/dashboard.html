@@ -90,12 +90,19 @@
         </div>
         <div class="dropdown content_action">
           <button class="shadow-lg btn btn-primary btn-lg dropdown-toggle" type="button" id="dashboardDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="fa fa-cog"></i> {{ _('Actions') }}
+            <i class="fa fa-home"></i> {{ _('Menu') }}
           </button>
           <ul class="dropdown-menu" aria-labelledby="dashboardDropdown">
+            {% if h.check_access('sysadmin') %}
+            <li>
+              <a class="dropdown-item" href="{{ h.url_for('admin.index') }}" style="color: white;">
+              <i class="fa fa-shield"></i> {{ _('Admin') }}
+              </a>
+            </li>
+            {% endif %}
             <li>
               <a class="dropdown-item" href="{{ h.url_for('user.index') }}" style="color: white;">
-                <i class="fa fa-users"></i> {{ _('User List') }}
+                <i class="fa fa-users"></i> {{ _('List Pengguna') }}
               </a>
             </li>
             <li>
@@ -105,12 +112,12 @@
             </li>
             <li>
               <a class="dropdown-item" href="{{ h.url_for('user.edit', id=user.name) }}" style="color: white;">
-                <i class="fa fa-cog"></i> {{ _('Profile Settings') }}
+                <i class="fa fa-cog"></i> {{ _('Pengaturan Profile') }}
               </a>
             </li>
             <li>
               <a class="dropdown-item" href="{{ h.url_for('user.logout') }}" style="color: white;">
-                <i class="fa fa-sign-out"></i> {{ _('Logout') }}
+                <i class="fa fa-sign-out"></i> {{ _('Keluar') }}
               </a>
             </li>
           </ul>
@@ -147,25 +154,25 @@
         <li class="nav-item {% if c.action=='dashboard.datasets' %}active{% endif %}">
         <a class="nav-link" href="{{ h.url_for('dashboard.datasets') }}">
           <i class="fa fa-sitemap"></i>
-          {{ h.humanize_entity_type('package', dataset_type, 'my label') or _('My Datasets') }}
+          {{ h.humanize_entity_type('package', dataset_type, 'my label') or _('Dataset') }}
         </a>
         </li>
         <li class="nav-item {% if c.action=='dashboard.organizations' %}active{% endif %}">
         <a class="nav-link" href="{{ h.url_for('dashboard.organizations') }}">
           <i class="fa fa-building"></i>
-          {{ h.humanize_entity_type('organization', org_type, 'my label') or _('My Organizations') }}
+          {{ h.humanize_entity_type('organization', org_type, 'my label') or _('Instansi') }}
         </a>
         </li>
         <li class="nav-item {% if c.action=='dashboard.groups' %}active{% endif %}">
         <a class="nav-link" href="{{ h.url_for('dashboard.groups') }}">
           <i class="fa fa-users"></i>
-          {{ h.humanize_entity_type('group', group_type, 'my label') or _('My Groups') }}
+          {{ h.humanize_entity_type('group', group_type, 'my label') or _('Grup') }}
         </a>
         </li>
         <li class="nav-item {% if c.action=='dashboard.groups' %}active{% endif %}">
         <a class="nav-link" href="{{ h.url_for('user.read', id=current_user.name) }}">
             <i class="fa fa-user"></i>
-            {{ _('My Profile') }}
+            {{ _('Profile') }}
         </a>
         </li>
 

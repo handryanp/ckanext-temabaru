@@ -1,6 +1,15 @@
 {% extends "user/dashboard.html" %}
 {% set group_type = h.default_group_type('group') %}
 
+{% block page_primary_action %}
+  {% if h.check_access('group_create') %}
+    <a class="btn btn-primary" href="{{ h.url_for(group_type ~ '.new') }}">
+      <i class="fa fa-plus"></i>
+      {{ _('Tambah Grup') }}
+    </a>
+  {% endif %}
+{% endblock %}
+
 {% block primary_content_inner %}
   <div class="dashboard-section">
     <h2 class="section-title">

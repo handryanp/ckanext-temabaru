@@ -1,17 +1,17 @@
 {% extends "page.html" %}
 
-{% block subtitle %}{{ _('All Users') }}{% endblock %}
+{% block subtitle %}{{ _('Semua Pengguna') }}{% endblock %}
 
 {% block breadcrumb_content %}
   {{ h.build_nav('dashboard.datasets', _('Dashboard')) }}
-  {{ h.build_nav('user.index', _('Users')) }}
+  {{ h.build_nav('user.index', _('Pengguna')) }}
 {% endblock %}
 
 {% block primary_content %}
   <article class="module">
     <div class="module-content">
       <h1 class="mb-4 page-heading">
-        {% block page_heading %}👥 {{ _('Users') }}{% endblock %}
+        {% block page_heading %}{{ _('Daftar Pengguna') }}{% endblock %}
       </h1>
 
       {% block users_list %}
@@ -24,9 +24,16 @@
                 {{ h.user_image(user.id, size=100) }}
               </div>
               <h5 class="fw-bold">{{ h.linked_user(user.name, maxlength=20) }}</h5>
+                <div class="d-flex justify-content-center">
+                {% if user.sysadmin %}
+                  <span class="bg-primary badge" style="width: 100px;">Administrator</span>
+                {% else %}
+                  <span class="bg-info badge" style="width: 100px;">Pengunjung</span>
+                {% endif %}
+                </div>
               <div class="mt-2">
                 <a href="{{ h.url_for('user.read', id=user.name) }}" class="btn-outline-primary btn btn-sm">
-                  <i class="fa fa-user"></i> View Profile
+                  <i class="fa-arrow-right fa"></i> Lihat Profile
                 </a>
               </div>
             </div>

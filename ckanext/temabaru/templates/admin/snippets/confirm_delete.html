@@ -1,0 +1,34 @@
+{% extends "page.html" %}
+
+{% block subtitle %}{{ _("Konfirmasi Hapus") }}{% endblock %}
+
+{% block maintag %}<div class="justify-content-center row" role="main">{% endblock %}
+
+{% block main_content %}
+  <section class="col-md-8 col-lg-6">
+    <div class="shadow-sm border-danger card">
+      <div class="bg-danger text-white card-header fw-semibold">
+        <i class="me-2 fa fa-exclamation-triangle"></i> {{ _("Konfirmasi Hapus") }}
+      </div>
+      <div class="card-body">
+        {% block form %}
+          <div class="alert alert-warning" role="alert">
+            {{ _(messages.confirm[ent_type]) }}
+          </div>
+
+          <form id="{{ ent_type }}-confirm-delete-form" action="{{ h.url_for('admin.trash') }}" method="POST">
+            {{ h.csrf_input() }} 
+            <div class="d-flex justify-content-between">
+              <button class="btn btn-secondary" type="submit" name="cancel">
+                <i class="me-1 fa fa-times"></i> {{ _("Batal") }}
+              </button>
+              <button class="btn btn-danger" type="submit" name="action" value="{{ ent_type }}">
+                <i class="me-1 fa fa-trash-alt"></i> {{ _("Konfirmasi Hapus") }}
+              </button>
+            </div>
+          </form>
+        {% endblock %}
+      </div>
+    </div>
+  </section>
+{% endblock %}
