@@ -1,64 +1,43 @@
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
-
-
-# import ckanext.temabaru.cli as cli
-# import ckanext.temabaru.helpers as helpers
-# import ckanext.temabaru.views as views
-# from ckanext.temabaru.logic import (
-#     action, auth, validators
-# )
-
+from flask import Blueprint
 
 class TemabaruPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
-    
-    # plugins.implements(plugins.IAuthFunctions)
-    # plugins.implements(plugins.IActions)
-    # plugins.implements(plugins.IBlueprint)
-    # plugins.implements(plugins.IClick)
-    # plugins.implements(plugins.ITemplateHelpers)
-    # plugins.implements(plugins.IValidators)
-    
-
-    # IConfigurer
+    plugins.implements(plugins.IBlueprint)
 
     def update_config(self, config_):
         toolkit.add_template_directory(config_, "templates")
         toolkit.add_public_directory(config_, "public")
         toolkit.add_resource("assets", "temabaru")
 
-    
-    # IAuthFunctions
+    # Tambah route baru disini lewat Blueprint
+    def get_blueprint(self):
+        blueprint = Blueprint('temabaru', __name__)
+        
+        # Route Regulasi
+        @blueprint.route('/regulasi')
+        def regulasi():
+            return toolkit.render('regulasi/index.html')
 
-    # def get_auth_functions(self):
-    #     return auth.get_auth_functions()
+        # Halaman Asta Cita Presiden
+        @blueprint.route('/asta-cita-presiden')
+        def asta_cita_presiden():
+            return toolkit.render('asta-cita-presiden/index.html')
+        
+        #Halaman Berita
+        @blueprint.route('/berita')
+        def berita():
+            return toolkit.render('berita/index.html')
+        
+        #Halaman Program Unggulan Bupati
+        @blueprint.route('/program-unggulan-bupati')
+        def program_unggulan_bupati():
+            return toolkit.render('program-unggulan-bupati/index.html')
 
-    # IActions
+        return blueprint
 
-    # def get_actions(self):
-    #     return action.get_actions()
 
-    # IBlueprint
-
-    # def get_blueprint(self):
-    #     return views.get_blueprints()
-
-    # IClick
-
-    # def get_commands(self):
-    #     return cli.get_commands()
-
-    # ITemplateHelpers
-
-    # def get_helpers(self):
-    #     return helpers.get_helpers()
-
-    # IValidators
-
-    # def get_validators(self):
-    #     return validators.get_validators()
-    
 class CustomGroupPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.ITemplateHelpers)
 
