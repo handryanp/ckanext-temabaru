@@ -1,0 +1,52 @@
+{% extends "page.html" %}
+
+{% block subtitle %}Regulasi{% endblock %}
+
+{% block primary_content_inner %}
+  <div id="uu14" class="mb-5">
+    <h3 style="color:#0054a5; font-weight:600;">UU No. 14 Tahun 2008</h3>
+    <p class="text-muted">
+      Undang-Undang tentang Keterbukaan Informasi Publik yang memberikan hak bagi masyarakat
+      untuk mengakses informasi dari badan publik.
+    </p>
+    <a href="https://peraturan.go.id/" target="_blank"
+       class="btn btn-primary btn-sm" style="border-radius:50px;">Baca Selengkapnya</a>
+  </div>
+
+  <div id="perpres39" class="mb-5">
+    <h3 style="color:#0054a5; font-weight:600;">Perpres No. 39 Tahun 2019</h3>
+    <p class="text-muted">
+      Peraturan Presiden tentang Satu Data Indonesia yang menjadi dasar integrasi data pemerintah
+      agar lebih akurat dan dapat diakses secara terbuka.
+    </p>
+    <a href="https://jdih.setneg.go.id/" target="_blank"
+       class="btn btn-primary btn-sm" style="border-radius:50px;">Baca Selengkapnya</a>
+  </div>
+
+  <div id="kebijakan" class="mb-5">
+    <h3 style="color:#0054a5; font-weight:600;">Kebijakan Internal</h3>
+    <p class="text-muted">
+      Pedoman internal mengenai tata kelola data, keamanan informasi, dan keterbukaan data
+      sesuai standar yang berlaku di instansi.
+    </p>
+    <a href="#" class="btn btn-primary btn-sm" style="border-radius:50px;">Baca Selengkapnya</a>
+  </div>
+{% endblock %}
+
+{% block secondary_content %}
+  <div class="shadow-sm rounded module module-narrow module-shallow" data-aos="fade-up" data-aos-delay="100">
+    <h2 class="d-flex align-items-center module-heading">
+      <i class="me-2 fa fa-chart-bar"></i>
+      {{ _('Daftar Regulasi Teratas') }}
+    </h2>
+    <a href="#uu14" class="list-group-item list-group-item-action">
+      UU No. 14 Tahun 2008
+    </a>
+    <a href="#perpres39" class="list-group-item list-group-item-action">
+      Perpres No. 39 Tahun 2019
+    </a>
+    <a href="#kebijakan" class="list-group-item list-group-item-action">
+      Kebijakan Internal
+    </a>
+  </div>
+{% endblock %}

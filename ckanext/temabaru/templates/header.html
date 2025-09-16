@@ -118,12 +118,24 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ h.url_for('organization.index') }}" style="color: white;">
-              {{ h.humanize_entity_type('organization', 'organization', 'main nav') or _('Instansi') }}
-            </a>
+            <a class="nav-link" href="{{ h.url_for('home.about') }}" style="color: white;">{{ _('Tentang') }}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ h.url_for('home.index') }}" style="color: white;">{{ _('Insight') }}</a>
+            <a class="nav-link" href="{{  h.url_for('temabaru.regulasi') }}" style="color: white;">{{ _('Regulasi') }}</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="publikasiDropdown" role="button" 
+              data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
+              {{ _('Kategori') }}
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="publikasiDropdown">
+              <li>
+                <a class="dropdown-item" href="{{ h.url_for('organization.index') }}">{{ _('Instansi') }}</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="{{ h.url_for('group.index') }}">{{ _('Grup') }}</a>
+              </li>
+            </ul>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="publikasiDropdown" role="button" 
@@ -132,28 +144,18 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="publikasiDropdown">
               <li>
-                <a class="dropdown-item" href="{{ h.url_for('admin.index') }}">{{ _('Berita') }}</a>
+                <a class="dropdown-item" href="{{ h.url_for('temabaru.asta_cita_presiden') }}">{{ _('Asta Cita Presiden') }}</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="{{ h.url_for('temabaru.program_unggulan_bupati') }}">{{ _('Program Unggulan Bupati') }}</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="{{ h.url_for('temabaru.berita') }}">{{ _('Berita') }}</a>
               </li>
               <li>
                 <a class="dropdown-item" href="{{ h.url_for('admin.index') }}">{{ _('Webinar') }}</a>
               </li>
             </ul>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="tentangDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
-              {{ _('Tentang') }}
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="tentangDropdown">
-              <li>
-                <a class="dropdown-item" href="{{ h.url_for('home.about') }}">{{ _('Profil Satu Data Deli Serdang') }}</a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="{{ h.url_for('group.index') }}">{{ _('Groups') }}</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ h.url_for('home.index') }}" style="color: white;">{{ _('Regulasi') }}</a>
           </li>
           {% if not c.user or c.user == 'visitor' %}
             <li class="text-center nav-item">

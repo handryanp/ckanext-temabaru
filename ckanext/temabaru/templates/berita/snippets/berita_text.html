@@ -1,0 +1,107 @@
+<style>
+  .text-truncate-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;   /* jumlah baris */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .card-custom {
+    border: 1px solid #eaeaea;
+    border-radius: 1rem;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .card-custom:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+  }
+
+  .card-body h5 {
+    font-size: 1rem;
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .card-date {
+    font-size: 0.85rem;
+    color: #6c757d;
+  }
+
+  .category-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #fff;
+    background: #0054a5;
+    padding: 4px 10px;
+    border-radius: 12px;
+    display: inline-block;
+  }
+
+  @media (max-width: 767px) {
+    .card-body h5 {
+      white-space: normal;
+    }
+  }
+</style>
+
+<div class="row g-4">
+  <!-- Card 1 -->
+  <div class="col-lg-3 col-md-6 col-sm-12">
+    <div class="shadow-sm h-100 card card-custom">
+      <div class="card-body">
+        <p class="mb-1 card-date">26 Agustus 2025</p>
+        <h5 class="fw-bold">Percepatan Akses Data untuk Dashboard...</h5>
+        <p class="text-muted text-truncate-2 small">
+          Kementerian PPN/Bappenas bersama Badan Gizi Nasional...
+        </p>
+        <span class="category-label">Kementerian/Lembaga</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 2 -->
+  <div class="col-lg-3 col-md-6 col-sm-12">
+    <div class="shadow-sm h-100 card card-custom">
+      <div class="card-body">
+        <p class="mb-1 card-date">26 Agustus 2025</p>
+        <h5 class="fw-bold">Satu Data Indonesia Sosialisasikan Perme...</h5>
+        <p class="text-muted text-truncate-2 small">
+          Direktorat Data Pembangunan dan Pemerintahan Digital...
+        </p>
+        <span class="category-label">Kementerian/Lembaga</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 3 -->
+  <div class="col-lg-3 col-md-6 col-sm-12">
+    <div class="shadow-sm h-100 card card-custom">
+      <div class="card-body">
+        <p class="mb-1 card-date">25 Agustus 2025</p>
+        <h5 class="fw-bold">Capaian dan Agenda Satu Data Indonesia...</h5>
+        <p class="text-muted text-truncate-2 small">
+          Pemerintah Indonesia terus memperkuat transformasi digital...
+        </p>
+        <span class="bg-success category-label">Rapat Dewan Pengarah</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 4 -->
+  <div class="col-lg-3 col-md-6 col-sm-12">
+    <div class="shadow-sm h-100 card card-custom">
+      <div class="card-body">
+        <p class="mb-1 card-date">20 Agustus 2025</p>
+        <h5 class="fw-bold">Rapat Dewan Pengarah Satu Data Indonesia...</h5>
+        <p class="text-muted text-truncate-2 small">
+          Bappenas selaku ketua dewan pengarah Satu Data Indonesia...
+        </p>
+        <span class="bg-warning text-dark category-label">Rapat Dewan Pengarah</span>
+      </div>
+    </div>
+  </div>
+</div>

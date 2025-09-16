@@ -1,0 +1,13 @@
+{% extends "page.html" %}
+
+{% block primary %}
+  <article class="module" role="main">
+    <div class="module-content">
+          <h1 class="page-heading" style="text-align: center;">{{ _('Berita Seputar Deli Serdang') }}</h1>
+          {% snippet 'berita/snippets/berita_text.html' %}
+    </div>
+  </article>
+{% endblock %}
+
+{% block secondary %}
+{% endblock %}
