@@ -23,7 +23,7 @@
         {% if g.site_about %}
           {{ h.render_markdown(g.site_about) }}
         {% else %}
-          <h1 class="page-heading" style="text-align: center;">{{ _('📜 Program Unggulan Bupati') }}</h1>
+          <h1 class="page-heading" style="text-align: center;" data-aos="fade-up" data-aos-delay="100">{{ _('📜 Program Unggulan Bupati') }}</h1>
           {% snippet 'program-unggulan-bupati/snippets/program_text.html' %}
         {% endif %}
       {% endblock %}

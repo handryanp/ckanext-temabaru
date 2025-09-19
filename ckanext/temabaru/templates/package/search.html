@@ -65,10 +65,17 @@
         <!-- Search bar + count -->
         <div class="shadow-sm mb-3 p-3 card" data-aos="fade-left" data-aos-delay="100">
           <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
-            <div>
-              <i class="me-2 fa fa-search"></i>
-              <span class="fw-bold">Dataset Ditemukan</span> :
-              <span class="bg-primary badge">{{ page.item_count }}</span>
+            <div class="d-flex align-items-center gap-3">
+              {% if h.check_access('package_create') %}
+                <a href="{{ h.url_for('dataset.new') }}" class="btn btn-primary">
+                  <i class="fa fa-plus"></i> Tambah Dataset
+                </a>
+              {% endif %}
+              <div>
+                <i class="me-2 fa fa-search"></i>
+                <span class="fw-bold">Dataset Ditemukan</span> :
+                <span class="bg-primary badge">{{ page.item_count }}</span>
+              </div>
             </div>
             <form method="get" class="d-flex" style="min-width:250px;">
               <input
