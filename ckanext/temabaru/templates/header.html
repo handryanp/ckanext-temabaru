@@ -152,9 +152,6 @@
               <li>
                 <a class="dropdown-item" href="{{ h.url_for('temabaru.berita') }}">{{ _('Berita') }}</a>
               </li>
-              <li>
-                <a class="dropdown-item" href="{{ h.url_for('admin.index') }}">{{ _('Webinar') }}</a>
-              </li>
             </ul>
           </li>
           {% if not c.user or c.user == 'visitor' %}
