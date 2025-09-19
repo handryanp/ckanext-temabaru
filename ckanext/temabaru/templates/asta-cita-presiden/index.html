@@ -23,7 +23,7 @@
         {% if g.site_about %}
           {{ h.render_markdown(g.site_about) }}
         {% else %}
-          <h1 class="page-heading" style="text-align: center;">{{ _('📜 Asta Cita Presiden') }}</h1>
+          <h1 class="page-heading" style="text-align: center;" data-aos="fade-up" data-aos-delay="100">{{ _('📜 Asta Cita Presiden') }}</h1>
           {% snippet 'asta-cita-presiden/snippets/about_text.html' %}
         {% endif %}
       {% endblock %}
